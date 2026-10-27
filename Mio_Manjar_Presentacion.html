@@ -1,0 +1,1106 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mío Manjar en marcha</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;500;700&family=Geist:wght@400;500;600&display=swap">
+<style>
+/* Layout: una presentación a pantalla completa. Cada diapositiva es un cartel de especias:
+   tipografía gigante a un lado, el postre en 3D al otro, reglas punteadas doradas entre bloques. */
+:root{
+  --rust:#823513; --spice:#402011; --clove:#281006; --gold:#faae33;
+  --saffron:#9f531b; --cardamom:#6b2e12; --chili:#d1255c; --cream:#f4ead6;
+  --display:'Antonio','Bebas Neue','Arial Narrow',Impact,sans-serif;
+  --body:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --gutter:clamp(16px,6vw,112px);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-out:cubic-bezier(.4,0,1,1);
+  color-scheme:dark;
+}
+html,body{height:100%;overflow:hidden;background:var(--clove);color:var(--gold)}
+body{font-family:var(--body);font-size:16px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+::selection{background:var(--gold);color:var(--clove)}
+html{caret-color:var(--gold);accent-color:var(--gold)}
+.mm{display:inline-block;width:1em;height:.88em;flex:none;vertical-align:-.08em}
+.mm use{fill:currentColor}
+.brand{display:flex;align-items:center;gap:clamp(12px,1.4vw,20px)}
+.brand .mm{font-size:clamp(64px,7vw,116px)}
+.brand p{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(15px,1.4vw,21px);letter-spacing:.06em;line-height:1.3}
+.slide.active .drop{animation:drop 1s var(--ease) both .1s}
+@keyframes drop{0%{transform:translateY(-38px) scale(.82,1.18);opacity:0}45%{transform:translateY(0) scale(1.12,.86);opacity:1}70%{transform:scale(.96,1.05)}100%{transform:none}}
+.sub{font-family:var(--display);font-weight:500;font-size:clamp(15px,1.4vw,21px);letter-spacing:.08em;text-transform:uppercase;margin:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.deck{position:fixed;inset:0;background:var(--rust);transition:background-color .9s var(--ease);overflow:hidden}
+.botanica{position:absolute;inset:0;width:100%;height:100%;opacity:.07;pointer-events:none}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.slides{position:absolute;inset:0;z-index:2}
+
+.slide{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;visibility:hidden;pointer-events:none;
+  padding-top:calc(env(safe-area-inset-top,0px) + clamp(24px,6vh,72px));
+  padding-bottom:calc(env(safe-area-inset-bottom,0px) + 104px);
+  padding-left:max(var(--gutter),env(safe-area-inset-left,0px));
+  padding-right:max(var(--gutter),env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;justify-content:safe center;gap:clamp(16px,3vh,32px);
+  transition:opacity .45s var(--ease),transform .55s var(--ease);scrollbar-width:none}
+.slide::-webkit-scrollbar{display:none}
+.slide.active{visibility:visible;pointer-events:auto}
+.slide.leaving{visibility:visible;opacity:0;transform:translateX(calc(var(--dir,1) * -48px));transition:opacity .28s var(--ease-out),transform .3s var(--ease-out)}
+.slide.on-gold{color:var(--clove)}
+.half{max-width:min(46vw,760px)}
+.wide{max-width:1500px}
+
+[data-a]{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d,0) * 90ms + 120ms)}
+.slide.active [data-a]{opacity:1;transform:none}
+.slide h2[data-a]{opacity:1;transform:none;clip-path:inset(0 0 100% 0);translate:0 .18em;transition:clip-path .9s var(--ease),translate .9s var(--ease);transition-delay:calc(var(--d,0) * 90ms + 120ms)}
+.slide.active h2[data-a]{clip-path:inset(-.1em -.1em -.1em -.1em);translate:0 0}
+
+.eyebrow{font-family:var(--display);font-weight:500;font-size:clamp(14px,1.5vw,22px);letter-spacing:.18em;text-transform:uppercase}
+.h-display{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.84;letter-spacing:-.02em;font-size:clamp(84px,16vw,250px);margin:0}
+.h-xl{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.9;letter-spacing:-.015em;font-size:clamp(46px,7.4vw,124px);margin:0;text-wrap:balance}
+.h-l{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:.92;letter-spacing:-.01em;font-size:clamp(38px,5.2vw,84px);margin:0;text-wrap:balance}
+.h-m{font-family:var(--display);font-weight:700;text-transform:uppercase;line-height:1;font-size:clamp(24px,2.4vw,38px);margin:0}
+.lead{font-size:clamp(16px,1.45vw,23px);line-height:1.45;max-width:58ch;margin:0}
+.small{font-size:clamp(13px,1.05vw,16px);line-height:1.45;margin:0}
+.rule{border:0;border-top:2px dotted currentColor;margin:0;width:100%}
+.num{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;line-height:.9}
+
+.pill{color:var(--gold);display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);border-radius:9999px;padding:8px 17px;background:transparent;font-family:var(--display);font-weight:500;font-size:clamp(13px,1.05vw,16px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s}
+.pill:hover{background:var(--spice)}
+.pill.solid,.pill[aria-pressed="true"],.pill[aria-selected="true"]{background:var(--gold);color:var(--clove)}
+.chip{display:inline-block;border-radius:9999px;padding:5px 13px;font-family:var(--display);font-weight:500;font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:var(--spice);color:var(--gold)}
+.chip.gold{background:var(--gold);color:var(--clove)}
+.chip.heat{background:var(--chili);color:var(--clove);font-weight:700}
+.chip.line{background:transparent;box-shadow:inset 0 0 0 1px var(--gold)}
+.card{background:var(--spice);border-radius:6px;padding:clamp(14px,1.6vw,24px)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* portada */
+.cover-title{display:flex;flex-direction:column}
+.line{display:block;overflow:hidden;padding:.1em 0 .04em;margin-top:-.1em;white-space:nowrap;width:max-content}
+#portada{padding-top:calc(env(safe-area-inset-top,0px) + 96px)}
+#portada .h-display{font-size:clamp(72px,11vw,210px)}
+.ch{display:inline-block;transform:translateY(105%);transition:transform .9s var(--ease);transition-delay:calc(var(--i) * 55ms + 200ms)}
+.slide.active .ch{transform:none}
+.marquee{position:absolute;left:0;right:0;top:env(safe-area-inset-top,0px);border-top:2px dotted var(--gold);border-bottom:2px dotted var(--gold);overflow:hidden;white-space:nowrap;padding:8px 0;pointer-events:none}
+.marquee span{display:inline-flex;align-items:center;gap:.5em;font-family:var(--display);font-weight:700;font-size:clamp(18px,2vw,28px);letter-spacing:.06em;text-transform:uppercase;animation:mq 26s linear infinite;padding-right:2em}
+@keyframes mq{to{transform:translateX(-100%)}}
+
+/* pasaporte */
+.tabs{display:flex;flex-wrap:wrap;gap:10px}
+.stamp-panel{border:2px dashed var(--gold);border-radius:6px;padding:clamp(14px,1.6vw,22px);max-width:560px;position:relative}
+.stamp-panel .seal{position:absolute;right:14px;top:-16px;transform:rotate(8deg);background:var(--chili);color:var(--clove);font-family:var(--display);font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:9999px;font-size:13px}
+
+/* problema */
+.zero{font-size:clamp(150px,24vw,380px);letter-spacing:-.04em}
+.stamps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:640px}
+.stamp{border:2px dashed var(--gold);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;transform:rotate(var(--r,0deg))}
+.stamp b{font-family:var(--display);font-size:clamp(24px,2.6vw,40px);font-weight:700;line-height:1}
+.stamp span{font-size:14px;line-height:1.35}
+.slide.active .stamp{animation:stampIn .5s var(--ease) both;animation-delay:calc(var(--d) * 120ms + 400ms)}
+@keyframes stampIn{0%{opacity:0;transform:scale(1.6) rotate(var(--r))}70%{opacity:1;transform:scale(.96) rotate(var(--r))}100%{transform:scale(1) rotate(var(--r))}}
+
+/* causa */
+.whys{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.why{border-top:2px dotted var(--clove);padding-top:12px;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;color:var(--clove);opacity:.55;transition:opacity .3s}
+.why[aria-pressed="true"],.why:hover{opacity:1}
+.why b{font-family:var(--display);font-size:28px}
+.why span{font-size:15px;line-height:1.35}
+.why .q{font-weight:600}
+
+/* alcance */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat .num{font-size:clamp(44px,5.6vw,92px)}
+.stat p{margin:6px 0 0;font-size:clamp(13px,1.1vw,17px)}
+.timeline{position:relative;height:150px;margin-top:8px}
+.tl-track{position:absolute;left:0;right:0;top:74px;border-top:2px dotted var(--gold);opacity:.6}
+.tl-fill{position:absolute;left:0;top:72px;height:6px;border-radius:9999px;background:var(--gold);width:0;transition:width 2.2s var(--ease) .5s}
+.slide.active .tl-fill{width:var(--w)}
+.ms{position:absolute;top:66px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.ms i{width:20px;height:20px;border-radius:50%;background:var(--clove);border:3px solid var(--gold);display:block}
+.ms.key i{background:var(--gold)}
+.ms label{position:absolute;white-space:nowrap;font-size:13px;line-height:1.25;text-align:center}
+.ms.up label{bottom:30px}
+.ms.down label{top:30px}
+.ms label b{display:block;font-family:var(--display);font-size:17px;letter-spacing:.04em;text-transform:uppercase}
+
+/* objetivos */
+.flips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.flip{perspective:1400px;background:none;border:0;padding:0;text-align:left;cursor:pointer;min-height:clamp(360px,52vh,520px)}
+.flip-in{position:relative;width:100%;height:100%;min-height:inherit;transition:transform .8s var(--ease);transform-style:preserve-3d}
+.flip[aria-pressed="true"] .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:6px;padding:clamp(16px,1.8vw,28px);display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.face.front{background:var(--spice);color:var(--gold)}
+.face.back{background:var(--gold);color:var(--clove);transform:rotateY(180deg)}
+.kr{display:flex;flex-direction:column;gap:2px}
+.kr .num{font-size:clamp(34px,3.6vw,58px)}
+.kr p{margin:0;font-size:clamp(13px,1.05vw,16px);line-height:1.35}
+.flip-hint{font-size:13px;opacity:.85;margin-top:auto;letter-spacing:.06em;text-transform:uppercase;font-family:var(--display)}
+
+/* edt */
+.layers{display:flex;flex-direction:column;gap:10px;max-width:640px}
+.layer{color:var(--gold);display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:baseline;text-align:left;background:var(--spice);border:1px solid transparent;border-radius:6px;padding:12px 16px;cursor:pointer;transition:background .3s,border-color .3s,transform .4s var(--ease)}
+.layer:hover{border-color:var(--gold)}
+.layer[aria-pressed="true"]{background:var(--gold);color:var(--clove);transform:translateX(10px)}
+.layer .n{font-family:var(--display);font-weight:700;font-size:34px;line-height:1;grid-row:span 2}
+.layer .t{font-family:var(--display);font-weight:700;font-size:clamp(18px,1.6vw,24px);text-transform:uppercase;line-height:1.05}
+.layer .c{font-family:var(--display);font-size:16px;font-variant-numeric:tabular-nums}
+.layer .p{grid-column:2 / 4;font-size:13.5px;line-height:1.4}
+
+/* gantt */
+.gantt-wrap{overflow-x:auto;max-width:100%}
+.gantt{position:relative;min-width:760px;display:grid;grid-template-columns:clamp(150px,21vw,310px) 1fr;row-gap:2px;font-size:13.5px}
+.g-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px;line-height:20px}
+.g-name b{font-family:var(--display);letter-spacing:.04em;margin-right:6px}
+.g-lane{position:relative;height:20px}
+.g-bar{position:absolute;top:3px;height:14px;border-radius:9999px;background:var(--cardamom);transform-origin:left center;transform:scaleX(0);transition:transform .7s var(--ease),left .7s var(--ease),width .7s var(--ease),background-color .3s;transition-delay:calc(var(--d) * 45ms + 300ms);cursor:pointer;border:0;padding:0}
+.g-bar.crit{background:var(--gold)}
+.slide.active .g-bar{transform:scaleX(1)}
+.g-bar:hover,.g-bar:focus-visible{outline:2px solid var(--cream);outline-offset:1px}
+.g-grid{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(250,174,51,.28)}
+.g-month{position:absolute;top:-22px;font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;transform:translateX(4px)}
+.g-dead{position:absolute;top:-24px;bottom:0;border-left:2px solid var(--chili)}
+.g-dead span{position:absolute;top:0;right:6px;font-family:var(--display);font-size:13px;color:var(--cream);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:18px;align-items:center;font-size:14px}
+.legend i{display:inline-block;width:26px;height:10px;border-radius:9999px;margin-right:8px;vertical-align:middle}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--clove);color:var(--gold);border:1px solid var(--gold);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.4;max-width:280px;opacity:0;transition:opacity .15s}
+.tip.show{opacity:1}
+.tip b{font-family:var(--display);font-size:16px;letter-spacing:.03em;display:block}
+
+/* pert / presupuesto / curva */
+.split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,4vw,72px);align-items:center}
+.big-pct{font-size:clamp(110px,15vw,260px);letter-spacing:-.03em}
+svg text{font-family:var(--body)}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.pt-table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+.pt-table th,.pt-table td{padding:6px 8px;text-align:right;border-bottom:1px dotted rgba(250,174,51,.45)}
+.pt-table th:first-child,.pt-table td:first-child{text-align:left}
+.pt-table th{font-family:var(--display);font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.money{font-size:clamp(64px,10.5vw,176px);letter-spacing:-.02em}
+.stack{display:flex;height:46px;border-radius:9999px;overflow:hidden;background:var(--clove)}
+.stack div{height:100%;transition:width 1.1s var(--ease)}
+.stack-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px;margin-top:14px}
+.stack-legend div{display:flex;gap:10px;align-items:baseline;font-size:15px}
+.stack-legend i{width:14px;height:14px;border-radius:50%;flex:none;transform:translateY(2px)}
+.stack-legend b{font-family:var(--display);font-size:20px;margin-left:auto;font-variant-numeric:tabular-nums;white-space:nowrap}
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.flow .card b{display:block;font-family:var(--display);font-size:clamp(22px,2.2vw,34px);font-variant-numeric:tabular-nums}
+.flow .card span{font-size:13.5px;line-height:1.35}
+
+/* riesgos */
+.risk-grid{display:grid;grid-template-columns:28px repeat(5,minmax(0,1fr));gap:5px;max-width:560px;width:100%}
+.risk-grid .ax{font-family:var(--display);font-size:13px;display:flex;align-items:center;justify-content:center}
+.cell{min-height:clamp(52px,8vh,82px);border-radius:6px;padding:5px;display:flex;flex-wrap:wrap;gap:4px;align-content:flex-start}
+.cell.z1{background:var(--spice)}.cell.z2{background:var(--cardamom)}.cell.z3{background:var(--chili)}
+.rk{border:0;border-radius:9999px;padding:3px 8px;font-family:var(--display);font-weight:700;font-size:13px;cursor:pointer;background:var(--clove);color:var(--gold);transition:transform .2s}
+.rk:hover{transform:scale(1.12)}
+.rk[aria-pressed="true"]{background:var(--gold);color:var(--clove)}
+.slide.active .rk{animation:pop .45s var(--ease) both;animation-delay:calc(var(--d) * 50ms + 300ms)}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
+.risk-detail{min-height:250px;display:flex;flex-direction:column;gap:12px}
+.meter{height:10px;border-radius:9999px;background:var(--clove);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--gold);transition:width .6s var(--ease)}
+
+/* seguimiento */
+.board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.col{background:var(--spice);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px;min-height:clamp(170px,30vh,280px)}
+.col header{display:flex;justify-content:space-between;align-items:baseline;gap:6px;font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:14px;line-height:1.1;border-bottom:2px dotted var(--gold);padding-bottom:6px}
+.col header span{font-size:13px;white-space:nowrap}
+.col.full header span{color:var(--chili)}
+.task{background:var(--clove);border-radius:6px;padding:6px 8px;font-size:12.5px;line-height:1.3}
+.task.new{animation:taskIn .45s var(--ease);outline:1px solid var(--gold)}
+.task b{font-family:var(--display);margin-right:4px}
+@keyframes taskIn{from{opacity:0;transform:translateY(-10px) scale(.9)}}
+.th-row{display:grid;grid-template-columns:minmax(0,1.2fr) repeat(3,minmax(0,1fr));gap:8px;align-items:center;font-size:14px}
+.th-row .chip{text-align:center}
+
+.alt-table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.alt-table td{padding:5px 6px;border-bottom:1px dotted rgba(250,174,51,.45)}
+.alt-table td:last-child{text-align:right;white-space:nowrap}
+.alt-table tr.pick td{color:var(--clove);background:var(--gold)}
+.trigger{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4}
+.trigger svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.delay-msg{font-size:15px;line-height:1.45;background:var(--clove);border-radius:6px;padding:12px 16px;max-width:110ch;margin:0}
+.g-bar.moved{background:var(--chili)}
+/* cierre */
+.sign{display:flex;align-items:center;gap:18px}
+.sign .mm{font-size:clamp(70px,7vw,112px)}
+.countdown{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.countdown .num{font-size:clamp(56px,7vw,110px)}
+
+/* barra de navegación */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;gap:14px;
+  padding:12px max(var(--gutter),env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(var(--gutter),env(safe-area-inset-left,0px));
+  pointer-events:none}
+.nav > *{pointer-events:auto}
+.nav .mm{font-size:30px}
+.nav .where{font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;font-size:13px;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis;flex:0 1 auto}
+.progress{flex:1;display:flex;gap:4px;min-width:60px}
+.progress button{flex:1;height:14px;border:0;background:none;padding:5px 0;cursor:pointer}
+.progress button::before{content:"";display:block;height:4px;border-radius:9999px;background:currentColor;opacity:.3;transition:opacity .3s}
+.progress button[aria-current="true"]::before,.progress button.done::before{opacity:1}
+.count{font-family:var(--display);font-size:15px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.iconbtn{width:40px;height:40px;border-radius:9999px;border:1px solid currentColor;background:transparent;display:inline-grid;place-items:center;cursor:pointer;flex:none}
+.iconbtn:hover{background:rgba(64,32,17,.6)}
+.iconbtn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+body.gold-mode .nav{color:var(--clove)}
+body.gold-mode .marquee{border-color:var(--clove)}
+
+.notes{position:fixed;z-index:6;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(76px + env(safe-area-inset-bottom,0px));width:min(420px,calc(100vw - 32px));background:var(--clove);border:1px solid var(--gold);border-radius:6px;padding:16px 18px;font-size:15px;line-height:1.5;color:var(--gold)}
+.notes h4{margin:0 0 6px;font-family:var(--display);letter-spacing:.12em;text-transform:uppercase;font-size:13px;font-weight:500}
+.hint{font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-family:var(--display);opacity:.9}
+
+@media (max-width:900px){
+  .half{max-width:none}
+  .slide[data-3d]{padding-top:calc(env(safe-area-inset-top,0px) + 40vh);justify-content:flex-start}
+  .whys{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flips{grid-template-columns:1fr}
+  .flip{min-height:330px}
+  .split{grid-template-columns:1fr}
+  .board{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .flow{grid-template-columns:1fr}
+  .stack-legend{grid-template-columns:1fr}
+  .nav .where{display:none}
+  .timeline{overflow-x:auto}
+  .slide{justify-content:flex-start}
+}
+@media (max-width:520px){
+  .stamps{grid-template-columns:1fr}
+  .board{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .th-row{grid-template-columns:1fr 1fr;}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0ms!important}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="mm-logo" viewBox="0 0 787 693"><path fill-rule="evenodd" d="M0.0 346.5L0.0 0.0L393.5 0.0L787.0 0.0L787.0 346.5L787.0 693.0L393.5 693.0L0.0 693.0L0.0 346.5ZM686.4 686.3C690.6 684.1 696.0 680.1 699.5 676.5C709.0 667.1 712.0 658.8 712.0 641.8C712.0 635.9 711.4 628.0 710.6 624.3C705.2 598.4 688.6 576.7 665.3 565.0C646.7 555.8 631.6 554.3 599.0 558.5C566.1 562.7 551.5 564.0 535.0 564.0C504.8 564.0 482.8 558.7 456.8 545.3C450.6 542.1 445.3 539.4 445.0 539.2C444.6 539.1 444.7 541.9 445.2 545.6C446.9 558.1 453.0 572.0 465.7 592.2C492.4 634.7 521.8 664.7 556.5 685.1L564.5 689.9L621.9 689.9L679.2 690.0L686.4 686.3ZM149.8 675.6C172.7 671.6 188.3 662.9 198.4 648.6C216.4 623.0 216.5 583.3 198.6 529.7C189.1 501.4 179.4 479.1 150.7 420.5C124.7 367.2 119.9 355.2 119.6 343.9C119.5 337.2 121.6 334.0 126.2 334.0C136.4 334.0 141.9 343.6 157.8 389.6C169.6 423.5 175.2 436.5 184.6 450.6C194.7 465.9 206.0 473.8 219.0 474.8C224.8 475.2 226.6 474.9 231.4 472.7C249.2 464.5 260.6 444.2 281.4 383.0C294.1 345.8 300.8 333.0 307.6 333.0C312.1 333.0 313.3 335.6 312.7 344.0C311.6 356.8 306.8 374.4 286.5 439.5C265.2 507.8 256.7 540.8 251.9 573.5C250.1 586.0 249.8 591.2 250.3 605.0C251.0 623.9 252.6 632.5 257.4 642.6C268.4 665.7 291.8 676.4 334.7 677.7C357.0 678.4 367.9 677.3 381.5 672.8C394.4 668.6 402.3 663.9 411.0 655.1C428.3 637.6 434.2 614.8 429.1 585.3C425.1 561.8 419.7 546.0 405.3 515.5C381.7 465.8 377.9 447.2 381.3 398.0C383.8 362.3 384.3 341.1 383.1 322.0C380.3 280.1 371.8 252.7 356.5 236.2C344.3 223.1 333.3 218.1 314.9 217.3C289.2 216.1 273.6 225.0 257.2 249.9C248.2 263.6 241.0 281.5 231.5 313.6C226.4 330.6 221.9 341.4 219.5 342.4C217.1 343.3 212.4 338.2 208.6 330.5C206.8 326.6 201.8 315.2 197.6 305.0C176.3 253.5 159.2 228.3 139.4 219.6C130.3 215.6 113.6 216.1 102.0 220.7C75.4 231.2 60.8 258.1 54.3 308.5C52.7 320.9 52.5 329.6 52.8 384.8C53.1 461.8 53.6 457.2 36.5 533.6C24.8 585.4 21.6 606.9 23.1 622.3C26.0 652.1 46.9 671.5 81.8 677.0C91.3 678.5 139.1 677.5 149.8 675.6ZM498.0 528.6C523.9 519.6 543.1 492.6 557.8 444.5C566.7 415.5 568.4 410.2 570.5 405.4C572.9 400.0 575.7 397.6 578.4 398.6C581.5 399.8 586.2 408.9 598.1 436.8C617.8 483.4 627.6 500.8 642.4 515.6C655.3 528.5 665.5 532.7 680.5 531.7C718.8 529.0 741.6 499.1 749.5 441.5C752.6 418.5 753.2 400.5 752.5 344.5C751.6 274.9 751.3 277.3 769.5 195.5C780.3 147.1 783.0 131.7 783.7 115.3C784.6 94.9 781.3 82.3 771.7 69.5C762.9 57.8 750.6 50.3 731.9 45.3C721.7 42.6 721.0 42.5 692.0 42.5C672.5 42.5 659.6 42.9 654.0 43.8C613.6 50.1 593.8 66.9 585.3 102.2C582.9 112.1 583.0 138.5 585.4 152.5C592.4 193.5 606.4 229.8 648.8 316.5C671.3 362.7 678.3 378.8 680.6 390.4C682.4 399.0 681.6 403.4 677.9 406.3C675.6 408.0 674.9 408.0 671.1 406.9C668.4 406.1 665.7 404.3 663.9 402.1C658.7 395.9 651.5 379.4 641.5 350.5C624.9 302.8 616.1 284.9 602.6 271.4C594.5 263.3 587.9 259.5 579.3 258.1C562.8 255.5 550.4 264.0 536.7 287.4C530.1 298.9 523.0 316.4 511.0 351.0C496.3 393.5 491.0 404.9 484.4 407.9C481.0 409.4 480.3 409.3 478.0 407.0C472.6 401.6 477.4 380.8 503.0 299.0C532.8 203.7 543.0 159.3 543.0 124.7C543.0 92.8 535.9 73.2 520.0 60.6C507.7 50.9 491.8 45.6 466.8 42.9C453.2 41.4 423.8 42.3 414.0 44.5C376.9 52.8 355.1 76.2 351.0 112.2C350.1 119.7 350.3 123.3 352.0 135.1C356.1 163.0 361.3 178.7 378.5 215.5C390.8 241.7 395.7 254.0 399.0 267.0C404.8 289.9 406.0 307.0 403.6 337.0C396.0 432.0 405.6 488.6 433.6 515.1C440.0 521.2 446.1 525.1 453.0 527.5C467.3 532.7 485.1 533.1 498.0 528.6ZM353.0 200.2C353.0 195.1 348.2 180.3 343.5 170.5C335.3 153.5 315.2 124.0 299.0 105.0C266.4 66.8 234.3 40.4 199.5 23.5C182.5 15.1 167.8 10.0 151.6 6.8C135.6 3.6 109.1 3.6 93.6 6.8C60.3 13.8 25.2 32.8 12.9 50.6C11.4 52.9 8.8 58.3 7.3 62.6C4.8 69.7 4.6 71.8 4.6 84.0C4.6 99.7 6.4 110.0 11.6 123.3C23.5 154.2 47.8 177.7 78.5 187.8C99.6 194.9 117.2 195.2 150.0 189.1C205.4 178.9 218.6 177.1 243.0 176.3C279.1 175.2 310.7 182.0 343.5 197.9C352.9 202.5 353.0 202.5 353.0 200.2Z"/></symbol></svg>
+<div class="deck" id="deck">
+  <svg class="botanica" aria-hidden="true" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <g fill="none" stroke="#faae33" stroke-width="2">
+      <path d="M90 820 C 160 640 260 560 420 520"/><path d="M180 700 c-50-40-60-90-40-130 c40 20 60 70 40 130z"/><path d="M260 610 c-40-50-40-100-10-130 c30 30 40 80 10 130z"/><path d="M340 556 c-20-60 0-100 40-120 c10 40 0 90-40 120z"/>
+      <path d="M1500 80 C 1400 240 1300 300 1150 330"/><path d="M1420 200 c50 30 70 80 50 120 c-40-20-60-70-50-120z"/><path d="M1330 270 c40 40 50 90 30 130 c-30-30-40-80-30-130z"/><path d="M1240 310 c30 50 20 100-10 130 c-20-40-10-90 10-130z"/>
+      <circle cx="1350" cy="760" r="34"/><circle cx="1350" cy="760" r="12"/><path d="M1350 726 v-40 M1384 760 h40 M1350 794 v40 M1316 760 h-40"/>
+    </g>
+  </svg>
+  <canvas id="gl" aria-hidden="true"></canvas>
+
+  <div class="slides" id="slides">
+
+  <!-- 1 Portada -->
+  <section class="slide active" id="portada" data-bg="#823513" data-3d data-title="Portada"
+    data-notes="Buenos días. Somos Mío Manjar, un emprendimiento de postres cuchareables de Santa Marta. Hoy mostramos el plan para pasar de la idea a la primera venta: alcance, cronograma, costos, riesgos y cómo lo vamos a controlar.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(14px,2.6vh,28px)">
+      <div class="brand" data-a style="--d:0"><svg class="mm drop" role="img" aria-label="Logo de Mío Manjar"><use href="#mm-logo"/></svg><p>@miomanjarsm<br>Gerencia de Proyectos · segunda entrega</p></div>
+      <h1 class="h-display cover-title" aria-label="Mío Manjar">
+        <span class="line" aria-hidden="true"></span><span class="line" aria-hidden="true"></span>
+      </h1>
+      <hr class="rule" data-a style="--d:6;max-width:620px">
+      <p class="h-m" data-a style="--d:7">Proyecto de puesta en marcha</p>
+      <p class="lead" data-a style="--d:8">Adriana Sierra y Kilmer Rovira · Ingeniería Industrial, Universidad Sergio Arboleda · Santa Marta, octubre de 2026</p>
+      <div class="row" data-a style="--d:9">
+        <button class="pill solid" id="btnStart" type="button">Empezar</button>
+        <button class="pill" id="btnRebuild" type="button">Armar el postre otra vez</button>
+      </div>
+      <p class="hint" data-a style="--d:10;margin:0">Flechas o barra espaciadora para avanzar · arrastra el postre para girarlo</p>
+    </div>
+    <div class="marquee" aria-hidden="true"><span>Pavé <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Carlota de limón <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Napoleón <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Pasaporte de sabores <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Santa Marta <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg>&nbsp;</span><span>Pavé <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Carlota de limón <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Napoleón <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Pasaporte de sabores <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg> Santa Marta <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg>&nbsp;</span></div>
+  </section>
+
+  <!-- 2 Pasaporte -->
+  <section class="slide" id="pasaporte" data-bg="#281006" data-3d data-title="Nuestra propuesta"
+    data-notes="La idea que nos diferencia es el Pasaporte de Sabores: cada postre se vende con la historia del país de donde viene la receta. Arrancamos con tres: Pavé, Carlota de limón y Napoleón. Pueden tocar cada uno para verlo de cerca.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(12px,2.2vh,22px)">
+      <h2 class="h-xl" data-a style="--d:1">Pasaporte de sabores</h2>
+      <p class="lead" data-a style="--d:2">Cada postre llega en vaso individual, con la historia del país de su receta y opción de caja de regalo. Precios de trabajo entre $10.000 y $14.000 para jóvenes y adultos de 16 a 35 años.</p>
+      <div class="tabs" role="tablist" aria-label="Postres" data-a style="--d:3">
+        <button class="pill" role="tab" aria-selected="true" data-dessert="pave" type="button">Pavé</button>
+        <button class="pill" role="tab" aria-selected="false" data-dessert="carlota" type="button">Carlota de limón</button>
+        <button class="pill" role="tab" aria-selected="false" data-dessert="napoleon" type="button">Napoleón</button>
+      </div>
+      <div class="stamp-panel" data-a style="--d:4" id="dessertPanel" aria-live="polite">
+        <span class="seal">Sellado</span>
+        <p class="h-m" id="dName" style="margin:0 0 6px">Pavé</p>
+        <p class="small" id="dDesc">Capas de crema de chocolate, galleta triturada y crema blanca, terminado con virutas de chocolate.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Problema -->
+  <section class="slide" id="problema" data-bg="#823513" data-3d data-title="El problema"
+    data-notes="Este es el punto de partida, contado y no estimado: cero ventas, cero clientes, cero recetas estándar y ningún socio con certificado de manipulación. El postre de la derecha está desarmado a propósito: hoy las piezas existen por separado.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)">
+      <div style="display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap">
+        <span class="num zero" data-a style="--d:1">0</span>
+        <h2 class="h-l" data-a style="--d:2;max-width:9ch;padding-bottom:.25em">postres vendidos hasta hoy</h2>
+      </div>
+      <p class="lead" data-a style="--d:3">Marca, costos estimados, catálogo de prueba y diseño del testeo ya existen, pero en papel o en pantalla. Ninguna receta se ha preparado en lotes de prueba.</p>
+      <div class="stamps">
+        <div class="stamp" style="--d:1;--r:-3deg"><b>0 de 3</b><span>recetas estandarizadas</span></div>
+        <div class="stamp" style="--d:2;--r:2deg"><b>0 de 2</b><span>socios certificados en manipulación</span></div>
+        <div class="stamp" style="--d:3;--r:1.5deg"><b>0 de 50</b><span>encuestas aplicadas</span></div>
+        <div class="stamp" style="--d:4;--r:-2deg"><b>0</b><span>canales recibiendo pedidos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Causa -->
+  <section class="slide on-gold" id="causa" data-bg="#faae33" data-title="Causa raíz"
+    data-notes="Hicimos cinco porqués sobre una pregunta que sí tiene respuesta: por qué no hemos vendido. La causa raíz es de gestión, y sobre eso sí podemos actuar. Por eso armamos el cronograma con responsables y el presupuesto por entregables.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(16px,3vh,30px)">
+      <h2 class="h-xl" data-a style="--d:1;max-width:16ch">Mío Manjar no se ha gestionado como un proyecto</h2>
+      <p class="sub" data-a style="--d:1">Causa raíz encontrada con cinco porqués</p>
+      <p class="lead" data-a style="--d:2">Sin presupuesto total ni cronograma con responsables, el capital no se reúne y el tiempo de los socios no se reserva. Las tareas que llevan a la primera venta se van aplazando.</p>
+      <div class="whys" data-a style="--d:3">
+        <button class="why" type="button" aria-pressed="true"><b>1</b><span class="q">¿Por qué no hemos vendido?</span><span>No hay un producto listo para vender.</span></button>
+        <button class="why" type="button" aria-pressed="false"><b>2</b><span class="q">¿Por qué no está listo?</span><span>Todo el trabajo ha sido de planeación y marca.</span></button>
+        <button class="why" type="button" aria-pressed="false"><b>3</b><span class="q">¿Por qué no se ha empezado?</span><span>No hay dinero ni horas asignadas.</span></button>
+        <button class="why" type="button" aria-pressed="false"><b>4</b><span class="q">¿Por qué no se asignaron?</span><span>No existía presupuesto ni cronograma.</span></button>
+        <button class="why" type="button" aria-pressed="false"><b>5</b><span class="q">¿Por qué no existían?</span><span>Se trabajó como una idea de ratos libres.</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Alcance -->
+  <section class="slide" id="alcance" data-bg="#281006" data-3d data-title="Alcance"
+    data-notes="El proyecto tiene fecha de inicio y de cierre. La fecha del 31 de marzo la fijó Adriana. Con la red de actividades el fin calculado es el 24 de marzo, así que tenemos tres días hábiles de margen. Lo que no entra en este proyecto se evalúa después, con datos de ventas reales.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(12px,2.4vh,24px)">
+      <h2 class="h-xl" data-a style="--d:1">De la idea a la primera venta</h2>
+    </div>
+    <div class="stats wide" data-a style="--d:2">
+      <div class="stat"><span class="num" data-count="101">0</span><p>días hábiles de trabajo</p></div>
+      <div class="stat"><span class="num" data-count="23">0</span><p>actividades en la red</p></div>
+      <div class="stat"><span class="num" data-count="11">0</span><p>paquetes en 4 entregables</p></div>
+      <div class="stat"><span class="num" data-count="271">0</span><p>horas de los dos socios</p></div>
+    </div>
+    <div class="wide" data-a style="--d:3;width:100%">
+      <div class="timeline" id="timeline"><div class="tl-track"></div><div class="tl-fill" id="tlFill"></div></div>
+    </div>
+    <p class="small wide" data-a style="--d:4">Fuera del alcance: local físico, vitrina refrigerada, personal permanente, página web, ventas al por mayor y nuevos postres.</p>
+  </section>
+
+  <!-- 6 Objetivos -->
+  <section class="slide" id="objetivos" data-bg="#823513" data-title="Objetivos"
+    data-notes="Cada resultado clave mide una sola cosa y tiene fecha. La meta de 6 postres diarios sale del punto de equilibrio: sin alquilar cocina, los costos fijos quedan en $1.200.000 al mes y con un margen de $6.596 por postre se necesitan unos 182 al mes. Al voltear cada tarjeta aparece su contramétrica, que es el atajo que vigilamos.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(14px,2.6vh,26px);width:100%">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <h2 class="h-l" data-a style="--d:0;max-width:14ch">Tres objetivos, siete resultados clave</h2>
+        <p class="hint" data-a style="--d:1;margin:0">Toca una tarjeta para ver su contramétrica</p>
+      </div>
+      <div class="flips">
+        <button class="flip" type="button" aria-pressed="false" data-a style="--d:2"><div class="flip-in">
+          <div class="face front">
+            <p class="eyebrow" style="margin:0">Objetivo 1</p>
+            <p class="h-m">Hay quien paga</p>
+            <p class="small">Confirmar que en Santa Marta hay personas dispuestas a pagar por los postres.</p>
+            <hr class="rule">
+            <div class="kr"><span class="num" data-count="60" data-suffix="%">0</span><p>de 50 encuestados pagaría $10.000 o más · 22 dic 2026</p></div>
+            <div class="kr"><span class="num">3 de 5</span><p>participantes del testeo reservan · 18 ene 2027</p></div>
+            <span class="flip-hint">Voltear</span>
+          </div>
+          <div class="face back">
+            <p class="eyebrow" style="margin:0">Contramétrica</p>
+            <p class="h-m">Que no sean solo conocidos</p>
+            <span class="num" style="font-size:clamp(60px,6vw,96px)">70%</span>
+            <p class="small">o más de los participantes sin relación previa con los socios. Amigos y familia tienden a decir que sí comprarían.</p>
+          </div>
+        </div></button>
+        <button class="flip" type="button" aria-pressed="false" data-a style="--d:3"><div class="flip-in">
+          <div class="face front">
+            <p class="eyebrow" style="margin:0">Objetivo 2</p>
+            <p class="h-m">Llega bien</p>
+            <p class="small">Que cada postre llegue al cliente seguro y en buen estado.</p>
+            <hr class="rule">
+            <div class="kr"><span class="num" data-count="95" data-suffix="%">0</span><p>de pedidos a 6 °C o menos al entregar · 19 mar 2027</p></div>
+            <div class="kr"><span class="num" data-count="98" data-suffix="%">0</span><p>sin derrames ni empaque dañado · 19 mar 2027</p></div>
+            <span class="flip-hint">Voltear</span>
+          </div>
+          <div class="face back">
+            <p class="eyebrow" style="margin:0">Contramétrica</p>
+            <p class="h-m">Sin esconder pedidos lejanos</p>
+            <span class="num" style="font-size:clamp(60px,6vw,96px)">10%</span>
+            <p class="small">o menos de pedidos rechazados por zona o tiempo de entrega. Así la temperatura no se cumple solo aceptando pedidos cercanos.</p>
+          </div>
+        </div></button>
+        <button class="flip" type="button" aria-pressed="false" data-a style="--d:4"><div class="flip-in">
+          <div class="face front">
+            <p class="eyebrow" style="margin:0">Objetivo 3</p>
+            <p class="h-m">Cubre sus costos</p>
+            <p class="small">Vender lo suficiente para cubrir los costos de operación.</p>
+            <hr class="rule">
+            <div class="kr"><span class="num" data-count="6" data-suffix=" al día">0</span><p>postres cobrados en el primer mes</p></div>
+            <div class="kr"><span class="num" data-count="50" data-suffix="%">0</span><p>de margen real por postre y 20% de recompra</p></div>
+            <span class="flip-hint">Voltear</span>
+          </div>
+          <div class="face back">
+            <p class="eyebrow" style="margin:0">Contramétricas</p>
+            <p class="h-m">Sin regalar ni achicar</p>
+            <span class="num" style="font-size:clamp(48px,4.6vw,76px)">20% · 5%</span>
+            <p class="small">Máximo 20% de unidades con descuento, y el peso de cada porción no se aleja más de 5% de la ficha técnica.</p>
+          </div>
+        </div></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 EDT -->
+  <section class="slide" id="edt" data-bg="#281006" data-3d data-title="Estructura del trabajo"
+    data-notes="La EDT está organizada por entregables: cada rama es algo que va a existir al terminar, no una tarea. La mostramos como el Napoleón porque se construye igual, capa por capa y de abajo hacia arriba. Esta misma estructura la importamos a ClickUp desde Excel.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)">
+      <h2 class="h-l" data-a style="--d:1">Cada entregable es una capa</h2>
+      <p class="sub" data-a style="--d:1">EDT · 4 entregables · 11 paquetes de trabajo</p>
+      <div class="layers" id="layers">
+        <button class="layer" type="button" data-band="3" aria-pressed="false" data-a style="--d:2"><span class="n">4</span><span class="t">Canal de venta en operación</span><span class="c">$2.182.240</span><span class="p">4.1 Redes y catálogo de WhatsApp (AS) · 4.2 Campaña de lanzamiento (AS) · 4.3 Primer mes de ventas medido (KR)</span></button>
+        <button class="layer" type="button" data-band="2" aria-pressed="false" data-a style="--d:3"><span class="n">3</span><span class="t">Operación sanitaria y de entrega</span><span class="c">$2.948.253</span><span class="p">3.1 Socios certificados (AS) · 3.2 Autorización y etiqueta (KR) · 3.3 Kit de frío probado (KR) · 3.4 Producción bajo pedido (KR)</span></button>
+        <button class="layer" type="button" data-band="1" aria-pressed="false" data-a style="--d:4"><span class="n">2</span><span class="t">Producto estandarizado y costeado</span><span class="c">$1.744.220</span><span class="p">2.1 Tres recetas con ficha técnica (AS) · 2.2 Proveedores, costos y precios (KR)</span></button>
+        <button class="layer" type="button" data-band="0" aria-pressed="false" data-a style="--d:5"><span class="n">1</span><span class="t">Validación de mercado</span><span class="c">$666.428</span><span class="p">1.1 Encuesta a 50 personas (KR) · 1.2 Testeo con 5 usuarios (AS)</span></button>
+      </div>
+      <p class="small" data-a style="--d:6">AS: Adriana Sierra · KR: Kilmer Rovira · Toca una capa para separarla del postre</p>
+    </div>
+  </section>
+
+  <!-- 8 Ruta crítica -->
+  <section class="slide" id="ruta" data-bg="#823513" data-title="Cronograma"
+    data-notes="Calculamos la red de 23 actividades con pasadas hacia adelante y hacia atrás. Las barras doradas tienen holgura cero: si una se atrasa un día, el proyecto se atrasa un día. La primera venta está programada del 16 al 19 de febrero. Ojo con el trámite sanitario: no es crítico, pero solo tiene un día de holgura.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(12px,2.2vh,22px);width:100%">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:10px"><h2 class="h-l" data-a style="--d:1">La ruta crítica</h2><p class="sub" data-a style="--d:1">23 actividades · método de pasadas</p></div>
+        <div class="legend" data-a style="--d:2"><span><i style="background:var(--gold)"></i>Ruta crítica, holgura cero</span><span><i style="background:var(--cardamom)"></i>Con holgura</span></div>
+      </div>
+      <div class="gantt-wrap" data-a style="--d:2;padding-top:26px"><div class="gantt" id="gantt"></div></div>
+      <div class="row" data-a style="--d:3">
+        <button class="pill" type="button" id="delayBtn" aria-pressed="false">Simular 3 días de retraso en A8</button>
+        <span class="chip gold" id="slackChip">3 días hábiles de holgura al 31 de marzo</span>
+        <span class="chip">A13 trámite sanitario: 1 día de holgura</span>
+        <span class="chip">El testeo arranca el 12 de enero, con el regreso a clases</span>
+      </div>
+      <p class="delay-msg" id="delayMsg" hidden>Un retraso de 3 días hábiles en una actividad crítica corre toda la cadena: el reporte final pasa del 24 al 31 de marzo (el 25 y 26 son Jueves y Viernes Santo), la holgura del proyecto queda en 0 y se dejan de ganar unos $118.728 (3 días × $39.576). Ese es el umbral crítico del plan de seguimiento: replanificar e informar.</p>
+    </div>
+  </section>
+
+  <!-- 9 PERT -->
+  <section class="slide" id="pert" data-bg="#281006" data-title="Probabilidad"
+    data-notes="Los tiempos optimista, más probable y pesimista los estimaron Adriana y Kilmer pensando en su semana real con clases. Con la fórmula (O + 4M + P) / 6 la ruta crítica da 101,67 días y una desviación de 2,39 días: Z = 0,98, o sea 83,5% de probabilidad de cumplir. Por el camino del trámite sanitario la probabilidad cae a 66,0%, por eso la respuesta es consultar a la Secretaría de Salud desde noviembre.">
+    <div class="split wide" style="width:100%">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <span class="num big-pct" id="pertPct" data-a style="--d:1">83,5%</span>
+        <p class="sub" data-a style="--d:0">Estimación PERT · (O + 4M + P) / 6</p>
+        <p class="lead" data-a style="--d:2" id="pertText">de probabilidad de terminar antes del 31 de marzo por la ruta crítica: 101,67 días esperados frente a 104 disponibles (Z = 0,98).</p>
+        <div class="row" role="group" aria-label="Camino" data-a style="--d:3">
+          <button class="pill" type="button" aria-pressed="true" data-path="crit">Ruta crítica</button>
+          <button class="pill" type="button" aria-pressed="false" data-path="near">Camino del trámite sanitario</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+        <svg class="chart" id="bell" viewBox="0 0 760 330" role="img" aria-label="Curva normal de la duración del proyecto con el área hasta 104 días sombreada" data-a style="--d:2"></svg>
+        <table class="pt-table" data-a style="--d:3">
+          <thead><tr><th>Actividad</th><th>O</th><th>M</th><th>P</th><th>Esperada</th></tr></thead>
+          <tbody>
+            <tr><td>A8 Testeo con 5 usuarios</td><td>2</td><td>4</td><td>7</td><td>4,17</td></tr>
+            <tr><td>A18 Redes y catálogo</td><td>5</td><td>10</td><td>15</td><td>10,00</td></tr>
+            <tr><td>A21 Primera venta</td><td>1</td><td>4</td><td>10</td><td>4,50</td></tr>
+            <tr><td>A13 Trámite sanitario</td><td>8</td><td>14</td><td>30</td><td>15,67</td></tr>
+          </tbody>
+        </table>
+        <p class="small" data-a style="--d:4">Fuente: estimación propia de Adriana y Kilmer, pensando en su semana real con clases (O optimista, M más probable, P pesimista, en días hábiles).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 Presupuesto -->
+  <section class="slide" id="presupuesto" data-bg="#823513" data-title="Presupuesto"
+    data-notes="Cada costo tiene fuente: cotizaciones en línea del 25 de octubre en tiendas como Ideaceros, Farmatodo, Mundo Huevo y Productos y Suministros (Anexo F), o la tarifa interna de $15.000 la hora: salario mínimo y auxilio de transporte de 2026, divididos por 180 horas y multiplicados por 1,35. De la línea base, $3.416.141 son desembolsos en efectivo y $4.125.000 son las 271 horas de los socios. El entregable más caro es la operación sanitaria y de entrega, por el kit de cadena de frío y la adecuación de la cocina.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(12px,2.4vh,24px);width:100%">
+      <span class="num money" data-a style="--d:1" data-count="9034051" data-money>$0</span>
+      <p class="lead" data-a style="--d:2">Presupuesto del proyecto: línea base de $7.541.141 más una reserva de contingencia de $1.492.910 calculada con los valores esperados de los riesgos.</p>
+      <div class="card" data-a style="--d:3">
+        <div class="row" role="group" aria-label="Ver por" style="margin-bottom:14px">
+          <button class="pill" type="button" aria-pressed="true" data-view="ent">Por entregable</button>
+          <button class="pill" type="button" aria-pressed="false" data-view="tipo">Por tipo de costo</button>
+        </div>
+        <div class="stack" id="stack"></div>
+        <div class="stack-legend" id="stackLegend"></div>
+      </div>
+      <div class="flow" data-a style="--d:4">
+        <div class="card"><b>$2.200.000</b><span>aportan los socios: $1.200.000 en noviembre y $1.000.000 en enero</span></div>
+        <div class="card"><b>$1.216.141</b><span>prestarían los familiares en febrero, si la encuesta sale bien</span></div>
+        <div class="card"><b>$4.125.000</b><span>de mano de obra: 271 horas de los socios a $15.000 la hora</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 Curva S -->
+  <section class="slide" id="curva" data-bg="#281006" data-title="Curva S"
+    data-notes="La curva S muestra cuánto dinero planeamos haber gastado cada semana. Sube despacio hasta enero y da el salto en la semana del 18 de enero, cuando se compran la mesa, los empaques y el kit de cadena de frío, que coincide con el aporte de enero de los socios. Con esta curva calculamos el valor planificado para el seguimiento de valor ganado.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(12px,2.2vh,22px);width:100%">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:10px"><h2 class="h-l" data-a style="--d:1">Curva S</h2><p class="sub" data-a style="--d:1">Valor planificado acumulado por semana</p></div>
+        <p class="hint" data-a style="--d:2;margin:0">Pasa el cursor por la curva para ver cada semana</p>
+      </div>
+      <svg class="chart" id="scurve" viewBox="0 0 1200 460" role="img" aria-label="Curva S: de $870.000 en la primera semana a $7.541.141 a finales de marzo de 2027" data-a style="--d:2"></svg>
+    </div>
+  </section>
+
+  <!-- 12 Riesgos -->
+  <section class="slide" id="riesgos" data-bg="#823513" data-title="Riesgos"
+    data-notes="Cada riesgo tiene probabilidad en porcentaje e impacto en pesos, sumando el costo directo y los días de retraso valorados a $39.576 por día sin vender. La reserva de contingencia es la suma de los valores esperados residuales. Los dos riesgos en zona alta son el trámite sanitario y las semanas de parciales. El T3 es poco probable pero muy caro, por eso se consulta temprano.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(12px,2.4vh,24px);width:100%">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:10px"><h2 class="h-l" data-a style="--d:1">Matriz de riesgos</h2><p class="sub" data-a style="--d:1">16 amenazas · 3 secundarios · 2 oportunidades</p></div>
+        <div data-a style="--d:2;text-align:right"><span class="num" style="font-size:clamp(34px,3.6vw,58px)" data-count="1492910" data-money>$0</span><p class="small">reserva: suma de los valores esperados<br>residuales de los 19 riesgos</p></div>
+      </div>
+      <div class="split" style="align-items:start">
+        <div data-a style="--d:2;display:flex;flex-direction:column;gap:8px;min-width:0">
+          <div class="risk-grid" id="riskGrid"></div>
+          <p class="small">Filas: probabilidad (5 arriba). Columnas: impacto. Rojo: zona alta.</p>
+        </div>
+        <div class="card risk-detail" id="riskDetail" data-a style="--d:3" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 Seguimiento -->
+  <section class="slide" id="seguimiento" data-bg="#281006" data-title="Seguimiento"
+    data-notes="El proyecto vive en ClickUp: importamos la EDT y el cronograma desde Excel. Cada viernes Kilmer saca el corte y calculamos valor ganado. El tablero tiene límites de trabajo en curso para que ninguno de los dos se sobrecargue con la universidad. Si el CPI o el SPI bajan de 0,90, se replanifica y se informa.">
+    <div class="wide" style="display:flex;flex-direction:column;gap:clamp(12px,2.2vh,22px);width:100%">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:10px"><h2 class="h-l" data-a style="--d:1">Seguimiento en ClickUp</h2><p class="sub" data-a style="--d:1">Corte semanal los viernes · Kilmer genera el dato</p></div>
+        <div class="row" data-a style="--d:2"><span class="chip line">Simulación del tablero</span><button class="pill" type="button" id="kbToggle" aria-pressed="true">Pausar</button></div>
+      </div>
+      <div class="board" id="board" data-a style="--d:2"></div>
+      <div class="card" data-a style="--d:3;display:flex;flex-direction:column;gap:8px">
+        <div class="th-row"><span class="eyebrow">Indicador</span><span class="eyebrow">Normal</span><span class="eyebrow">Alerta</span><span class="eyebrow">Crítico</span></div>
+        <div class="th-row"><span>CPI = EV / AC</span><span class="chip gold">0,95 o más</span><span class="chip line">0,90 a 0,94</span><span class="chip heat">menos de 0,90</span></div>
+        <div class="th-row"><span>SPI = EV / PV</span><span class="chip gold">0,95 o más</span><span class="chip line">0,90 a 0,94</span><span class="chip heat">menos de 0,90</span></div>
+        <div class="th-row"><span>Holgura al 31 de marzo</span><span class="chip gold">3 días o más</span><span class="chip line">1 o 2 días</span><span class="chip heat">0 o negativa</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 Cierre -->
+  <section class="slide" id="cierre" data-bg="#823513" data-3d data-title="Cierre"
+    data-notes="Todo el plan apunta a una fecha: el 19 de febrero de 2027 queremos tener la primera venta cobrada, y el 24 de marzo el reporte con ventas, margen y recompra del primer mes. Gracias, quedamos atentos a sus preguntas.">
+    <div class="half" style="display:flex;flex-direction:column;gap:clamp(12px,2.4vh,24px)">
+      <h2 class="h-display" data-a style="--d:1;font-size:clamp(72px,12vw,200px)">19 feb<br>2027</h2>
+      <p class="sub" data-a style="--d:1">Primera venta cobrada</p>
+      <hr class="rule" data-a style="--d:2;max-width:620px">
+      <div class="countdown" data-a style="--d:3"><span class="num" id="daysLeft">0</span><span class="h-m">días para la primera venta</span></div>
+      <p class="lead" data-a style="--d:4">Reporte del primer mes el 24 de marzo, tres días hábiles antes del cierre comprometido.</p>
+      <div class="sign" data-a style="--d:5"><svg class="mm" role="img" aria-label="Logo de Mío Manjar"><use href="#mm-logo"/></svg><div style="display:flex;flex-direction:column;gap:10px"><p class="h-m">Gracias</p><p class="small">@miomanjarsm · Adriana Sierra y Kilmer Rovira</p></div></div>
+    </div>
+  </section>
+  </div>
+</div>
+
+<nav class="nav" aria-label="Presentación">
+  <svg class="mm" aria-hidden="true"><use href="#mm-logo"/></svg><span class="where" id="where">Mío Manjar · Portada</span>
+  <div class="progress" id="progress"></div>
+  <span class="count" id="count">01 / 14</span>
+  <button class="iconbtn" id="prev" type="button" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="iconbtn" id="next" type="button" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button class="iconbtn" id="notesBtn" type="button" aria-label="Notas del expositor" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></button>
+  <button class="iconbtn" id="fsBtn" type="button" aria-label="Pantalla completa"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</nav>
+<aside class="notes" id="notes" hidden><h4>Notas del expositor</h4><p id="notesText" style="margin:0"></p></aside>
+<div class="tip" id="tip" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+'use strict';
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var $ = function(s,r){return (r||document).querySelector(s)};
+var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var fmtMoney = function(n){return '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
+var tip = $('#tip');
+function showTip(html, x, y){ tip.innerHTML = html; tip.classList.add('show');
+  var w = tip.offsetWidth, h = tip.offsetHeight;
+  var left = Math.min(window.innerWidth - w - 12, Math.max(12, x + 14));
+  var top = y - h - 14; if (top < 12) top = y + 18;
+  tip.style.left = left + 'px'; tip.style.top = top + 'px'; }
+function hideTip(){ tip.classList.remove('show'); }
+
+/* ---------- portada: letras ---------- */
+(function(){
+  var lines = $$('#portada .line'); var words = ['Mío','Manjar']; var k = 0;
+  words.forEach(function(w,li){ w.split('').forEach(function(c){ var s = document.createElement('span'); s.className='ch'; s.style.setProperty('--i', k++); s.textContent = c; lines[li].appendChild(s); }); });
+})();
+
+/* ---------- datos ---------- */
+var D0 = new Date(2026,9,26), DEND = new Date(2027,3,2);
+function d(s){ var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function frac(dt){ return (dt - D0) / (DEND - D0); }
+var ACTS = [
+ ['A1','Certificar a los socios en manipulación','2026-10-26','2026-10-30',20,'Adriana'],
+ ['A2','Comprar utensilios y alistar la cocina','2026-10-26','2026-10-29',21,'Kilmer'],
+ ['A5','Diseñar el cuestionario de la encuesta','2026-10-26','2026-10-27',33,'Kilmer'],
+ ['A3','Preparar lotes de prueba de los tres postres','2026-11-03','2026-11-17',20,'Adriana'],
+ ['A4','Estandarizar recetas y fichas técnicas','2026-11-18','2026-11-20',24,'Adriana'],
+ ['A10','Cotizar y seleccionar proveedores','2026-11-23','2026-12-02',24,'Adriana'],
+ ['A6','Aplicar la encuesta a 50 personas','2026-12-01','2026-12-17',11,'Adriana'],
+ ['A7','Analizar los resultados de la encuesta','2026-12-18','2026-12-22',11,'Kilmer'],
+ ['A11','Calcular costos y fijar precios','2026-12-23','2026-12-30',11,'Kilmer'],
+ ['A14','Diseñar e imprimir la etiqueta','2026-12-31','2027-01-06',27,'Kilmer'],
+ ['A8','Aplicar el testeo con 5 usuarios','2027-01-12','2027-01-15',0,'Adriana'],
+ ['A9','Decidir si seguir, ajustar o cambiar','2027-01-18','2027-01-18',0,'Kilmer'],
+ ['A12','Comprar la mesa de trabajo','2027-01-19','2027-01-25',1,'Kilmer'],
+ ['A15','Comprar empaques y kit de cadena de frío','2027-01-19','2027-01-25',5,'Adriana'],
+ ['A18','Configurar redes y catálogo de WhatsApp','2027-01-19','2027-02-01',0,'Adriana'],
+ ['A13','Gestionar la autorización sanitaria','2027-01-26','2027-02-12',1,'Kilmer'],
+ ['A16','Probar la cadena de frío en una ruta','2027-01-26','2027-01-27',5,'Kilmer'],
+ ['A17','Documentar la producción bajo pedido','2027-01-28','2027-02-03',8,'Kilmer'],
+ ['A19','Entregar muestras a familiares e influenciadores','2027-02-02','2027-02-11',2,'Adriana'],
+ ['A20','Ejecutar la campaña de expectativa','2027-02-02','2027-02-15',0,'Adriana'],
+ ['A21','Abrir pedidos y concretar la primera venta','2027-02-16','2027-02-19',0,'Kilmer'],
+ ['A22','Medir ventas, margen y recompra del primer mes','2027-02-22','2027-03-19',0,'Kilmer'],
+ ['A23','Reporte de resultados del primer mes','2027-03-23','2027-03-24',0,'Kilmer']
+];
+var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fdate(dt){ return dt.getDate() + ' ' + MESES[dt.getMonth()]; }
+
+/* ---------- gantt ---------- */
+(function(){
+  var g = $('#gantt'); var html = '';
+  ACTS.forEach(function(a,i){
+    var s = d(a[2]), e = d(a[3]); e = new Date(e.getTime() + 86400000);
+    var l = frac(s)*100, w = Math.max(.6,(frac(e)-frac(s))*100);
+    var crit = a[4] === 0;
+    html += '<div class="g-name"><b>'+a[0]+'</b>'+a[1]+'</div><div class="g-lane"><button type="button" class="g-bar'+(crit?' crit':'')+'" style="left:'+l+'%;width:'+w+'%;--d:'+i+'" data-i="'+i+'" aria-label="'+a[0]+' '+a[1]+', '+fdate(s)+' a '+fdate(d(a[3]))+(crit?', crítica':', holgura '+a[4]+' días')+'"></button></div>';
+  });
+  g.innerHTML = html;
+  var lanes = $$('.g-lane', g); var first = lanes[0];
+  // grid de meses sobre el primer carril
+  var over = document.createElement('div'); over.style.cssText='position:absolute;top:0;bottom:0;pointer-events:none';
+  g.appendChild(over);
+  function placeOver(){ over.style.left = first.offsetLeft + 'px'; over.style.width = first.offsetWidth + 'px'; }
+  var marks = '';
+  [[2026,10],[2026,11],[2027,0],[2027,1],[2027,2]].forEach(function(m){ var f = frac(new Date(m[0],m[1],1))*100; marks += '<div class="g-grid" style="left:'+f+'%"><span class="g-month">'+MESES[m[1]]+'</span></div>'; });
+  marks += '<div class="g-dead" style="left:'+(frac(new Date(2027,2,31))*100)+'%"><span>31 mar</span></div>';
+  over.innerHTML = marks; placeOver(); window.addEventListener('resize', placeOver);
+  function show(ev){ var b = ev.target.closest('.g-bar'); if(!b) return; var a = ACTS[+b.dataset.i];
+    var r = b.getBoundingClientRect();
+    showTip('<b>'+a[0]+' · '+a[1]+'</b>'+fdate(d(a[2]))+' a '+fdate(d(a[3]))+' · '+a[5]+'<br>'+(a[4]===0?'Crítica: holgura cero':'Holgura de '+a[4]+(a[4]===1?' día':' días')), ev.clientX || r.left + r.width/2, ev.clientY || r.top); }
+  g.addEventListener('pointerover', show); g.addEventListener('pointermove', show);
+  g.addEventListener('focusin', show); g.addEventListener('pointerleave', hideTip); g.addEventListener('focusout', hideTip);
+})();
+
+/* ---------- simular retraso ---------- */
+(function(){
+  var HOL = ['2027-01-11','2027-03-22','2027-03-25','2027-03-26'];
+  function iso(dt){ return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0'); }
+  function biz(dt){ var w = dt.getDay(); return w!==0 && w!==6 && HOL.indexOf(iso(dt)) < 0; }
+  function addBiz(dt,n){ var x = new Date(dt); while(n>0){ x = new Date(x.getFullYear(), x.getMonth(), x.getDate()+1); if(biz(x)) n--; } return x; }
+  var btn = $('#delayBtn'), msg = $('#delayMsg'), chip = $('#slackChip'), cut = d('2027-01-12'), bars = $$('#gantt .g-bar');
+  function place(on){ ACTS.forEach(function(a,i){ var s0 = d(a[2]), e0 = d(a[3]); var mv = on && s0 >= cut;
+      if(mv){ s0 = addBiz(s0,3); e0 = addBiz(e0,3); }
+      var e1 = new Date(e0.getTime() + 86400000); var b = bars[i];
+      b.style.left = frac(s0)*100 + '%'; b.style.width = Math.max(.6,(frac(e1)-frac(s0))*100) + '%';
+      b.classList.toggle('moved', mv && a[4]===0); }); }
+  btn.addEventListener('click', function(){ var on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', on); btn.textContent = on ? 'Quitar el retraso' : 'Simular 3 días de retraso en A8';
+    msg.hidden = !on; chip.textContent = on ? 'Holgura al 31 de marzo: 0 días' : '3 días hábiles de holgura al 31 de marzo';
+    chip.className = on ? 'chip heat' : 'chip gold'; place(on); });
+})();
+
+/* ---------- línea de tiempo ---------- */
+(function(){
+  var T0 = new Date(2026,9,26), T1 = new Date(2027,2,31);
+  var ms = [['Inicio','26 oct','2026-10-26',1,'up'],['Fichas técnicas','20 nov','2026-11-20',0,'down'],['Precios fijados','30 dic','2026-12-30',0,'up'],['Decisión tras el testeo','18 ene','2027-01-18',0,'down'],['Primera venta','19 feb','2027-02-19',1,'up'],['Fin calculado','24 mar','2027-03-24',0,'down'],['Cierre','31 mar','2027-03-31',1,'up']];
+  var tl = $('#timeline'); var html='';
+  ms.forEach(function(m){ var f = (d(m[2]) - T0)/(T1 - T0)*100; var align = f < 5 ? 'transform:translateX(-10px);' : f > 95 ? 'right:-10px;' : '';
+    html += '<div class="ms '+m[4]+(m[3]?' key':'')+'" style="left:'+f+'%"><i></i><label style="'+(f<5?'left:0;':f>95?'right:0;':'')+'"><b>'+m[1]+'</b>'+m[0]+'</label></div>'; });
+  tl.insertAdjacentHTML('beforeend', html);
+  $('#tlFill').style.setProperty('--w', ((d('2027-03-24') - T0)/(T1 - T0)*100) + '%');
+})();
+
+/* ---------- PERT ---------- */
+(function(){
+  var svg = $('#bell'); var W=760,H=330,PL=30,PR=20,PT=20,PB=46; var x0=92,x1=114;
+  var X = function(v){return PL + (v-x0)/(x1-x0)*(W-PL-PR)}; var Y;
+  var paths = {crit:{m:101.667,s:2.392,p:'83,5%',t:'de probabilidad de terminar antes del 31 de marzo por la ruta crítica: 101,67 días esperados frente a 104 disponibles (Z = 0,98).'},
+               near:{m:102.333,s:4.048,p:'66,0%',t:'de probabilidad por el camino del trámite sanitario (A13), cuyo pesimista es de 30 días frente a 14.'}};
+  function pdf(x,m,s){return Math.exp(-.5*Math.pow((x-m)/s,2))/(s*Math.sqrt(2*Math.PI))}
+  var maxY = pdf(101.667,101.667,2.392); Y = function(v){return H-PB - v/maxY*(H-PB-PT)};
+  function curve(m,s,upto){ var pts=[]; for(var x=x0;x<=Math.min(x1,upto);x+=.1){pts.push(X(x).toFixed(1)+','+Y(pdf(x,m,s)).toFixed(1))} return pts; }
+  var ticks=''; for(var t=92;t<=114;t+=2){ ticks += '<line x1="'+X(t)+'" x2="'+X(t)+'" y1="'+(H-PB)+'" y2="'+(H-PB+6)+'" stroke="#faae33"/><text x="'+X(t)+'" y="'+(H-PB+24)+'" fill="#faae33" font-size="14" text-anchor="middle">'+t+'</text>'; }
+  svg.innerHTML = '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+(H-PB)+'" y2="'+(H-PB)+'" stroke="#faae33" stroke-width="1.5"/>'+ticks+
+    '<text x="'+(W-PR)+'" y="'+(H-4)+'" fill="#faae33" font-size="13" text-anchor="end">días hábiles</text>'+
+    '<polygon id="bArea" fill="#faae33" fill-opacity=".28"></polygon><polyline id="bLine" fill="none" stroke="#faae33" stroke-width="4" stroke-linejoin="round"></polyline>'+
+    '<line x1="'+X(104)+'" x2="'+X(104)+'" y1="'+PT+'" y2="'+(H-PB)+'" stroke="#d1255c" stroke-width="3"/><text x="'+(X(104)+8)+'" y="'+(PT+14)+'" fill="#f4ead6" font-size="15">104 días · 31 mar</text>';
+  function draw(k){ var p = paths[k]; var full = curve(p.m,p.s,999), part = curve(p.m,p.s,104);
+    $('#bLine', svg).setAttribute('points', full.join(' '));
+    $('#bArea', svg).setAttribute('points', X(x0)+','+(H-PB)+' '+part.join(' ')+' '+X(104)+','+(H-PB));
+    $('#pertPct').textContent = p.p; $('#pertText').textContent = p.t; }
+  draw('crit');
+  $$('[data-path]').forEach(function(b){ b.addEventListener('click', function(){ $$('[data-path]').forEach(function(o){o.setAttribute('aria-pressed', o===b)}); draw(b.dataset.path); }); });
+})();
+
+/* ---------- presupuesto ---------- */
+(function(){
+  var views = {
+    ent:[['1 · Validación de mercado',666428,'#faae33'],['2 · Producto estandarizado',1744220,'#f4ead6'],['3 · Operación sanitaria y de entrega',2948253,'#9f531b'],['4 · Canal de venta',2182240,'#d1255c'],['Reserva de contingencia',1492910,'#6b2e12']],
+    tipo:[['Mano de obra, 271 horas',4125000,'#faae33'],['Materiales',2766141,'#f4ead6'],['Servicios',650000,'#9f531b'],['Licencias',0,'#d1255c'],['Reserva de contingencia',1492910,'#6b2e12']]
+  };
+  var total = 9034051; var st = $('#stack'), lg = $('#stackLegend');
+  st.innerHTML = '<div></div><div></div><div></div><div></div><div></div>';
+  function draw(k){ var v = views[k]; $$('div', st).forEach(function(el,i){ el.style.width = (v[i][1]/total*100)+'%'; el.style.background = v[i][2]; el.title = v[i][0]; });
+    lg.innerHTML = v.map(function(r){ return '<div><i style="background:'+r[2]+'"></i><span>'+r[0]+'</span><b>'+fmtMoney(r[1])+'</b></div>'; }).join(''); }
+  draw('ent');
+  $$('[data-view]').forEach(function(b){ b.addEventListener('click', function(){ $$('[data-view]').forEach(function(o){o.setAttribute('aria-pressed', o===b)}); draw(b.dataset.view); }); });
+})();
+
+/* ---------- curva S ---------- */
+(function(){
+  var v=[870000,1199688,1671798,1874220,1986720,2154220,2254220,2394220,2546220,2934220,3024220,3180648,5023901,5494472,6180307,6797141,7151141,7226141,7301141,7376141,7451141,7541141,7541141];
+  var svg = $('#scurve'); var W=1200,H=460,PL=70,PR=30,PT=30,PB=50;
+  var X = function(i){return PL + i*(W-PL-PR)/22}, Y = function(val){return H-PB - val/8e6*(H-PB-PT)};
+  var grid=''; [2,4,6,8].forEach(function(m){ grid += '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+Y(m*1e6)+'" y2="'+Y(m*1e6)+'" stroke="#6b2e12" stroke-dasharray="4 8" stroke-width="2"/><text x="'+(PL-12)+'" y="'+(Y(m*1e6)+5)+'" fill="#faae33" font-size="15" text-anchor="end">$'+m+' M</text>'; });
+  var months=[['nov',1],['dic',5],['ene',9],['feb',14],['mar',18]]; months.forEach(function(m){ grid += '<text x="'+X(m[1])+'" y="'+(H-PB+30)+'" fill="#faae33" font-size="15" text-anchor="middle">'+m[0]+'</text>'; });
+  var pts = v.map(function(val,i){return X(i).toFixed(1)+','+Y(val).toFixed(1)}).join(' ');
+  var dots = v.map(function(val,i){return '<circle cx="'+X(i)+'" cy="'+Y(val)+'" r="'+(i===12||i===22?8:5)+'" fill="#faae33"/>'}).join('');
+  var hits = v.map(function(val,i){return '<rect x="'+(X(i)-24)+'" y="'+PT+'" width="48" height="'+(H-PB-PT)+'" fill="#000" fill-opacity="0" data-w="'+i+'"/>'}).join('');
+  svg.innerHTML = grid + '<line x1="'+PL+'" x2="'+(W-PR)+'" y1="'+(H-PB)+'" y2="'+(H-PB)+'" stroke="#faae33" stroke-width="2"/>'+
+    '<polygon points="'+X(0)+','+(H-PB)+' '+pts+' '+X(22)+','+(H-PB)+'" fill="#faae33" fill-opacity=".1"/>'+
+    '<polyline id="sLine" points="'+pts+'" fill="none" stroke="#faae33" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>'+dots+
+    '<line id="sCursor" x1="0" x2="0" y1="'+PT+'" y2="'+(H-PB)+'" stroke="#f4ead6" stroke-width="1.5" stroke-dasharray="3 5" opacity="0"/>'+
+    '<text x="'+(X(12)-14)+'" y="'+(Y(v[12])-16)+'" fill="#f4ead6" font-size="16" text-anchor="end">18 ene: mesa, empaques y kit de frío (+$1,84 M)</text>'+
+    '<text x="'+X(22)+'" y="'+(Y(v[22])-20)+'" fill="#faae33" font-size="22" font-weight="600" text-anchor="end">$7.541.141</text>'+hits;
+  var line = $('#sLine', svg); var len = 0; try{ len = line.getTotalLength(); }catch(e){}
+  svg.__len = len;
+  var cur = $('#sCursor', svg);
+  svg.addEventListener('pointermove', function(ev){ var r = ev.target.closest('rect[data-w]'); if(!r) return; var i = +r.dataset.w;
+    var start = new Date(D0.getTime() + i*7*86400000);
+    cur.setAttribute('x1', X(i)); cur.setAttribute('x2', X(i)); cur.setAttribute('opacity', 1);
+    showTip('<b>Semana '+(i+1)+' · '+fdate(start)+'</b>Acumulado: '+fmtMoney(v[i])+'<br>Esa semana: '+fmtMoney(v[i]-(i?v[i-1]:0))+'<br>'+(v[i]/7541141*100).toFixed(0)+'% de la línea base', ev.clientX, ev.clientY); });
+  svg.addEventListener('pointerleave', function(){ hideTip(); cur.setAttribute('opacity',0); });
+})();
+function animateSLine(){ var svg = $('#scurve'), line = $('#sLine', svg), len = svg.__len; if(!len || reduce) return;
+  line.style.transition='none'; line.style.strokeDasharray = len; line.style.strokeDashoffset = len; line.getBoundingClientRect();
+  line.style.transition = 'stroke-dashoffset 2.4s cubic-bezier(.4,.1,.2,1) .4s'; line.style.strokeDashoffset = 0; }
+
+/* ---------- riesgos ---------- */
+var RISKS = [
+ ['T1',.20,2,5,'Las cocinas de las casas no son aceptadas por la autoridad sanitaria.',1356184,'Mitigar: adecuar la cocina con la lista de chequeo de la Resolución 2674 ($150.000).'],
+ ['T2',.40,3,5,'El trámite sanitario se demora más de lo previsto.',593640,'Mitigar: consulta temprana en noviembre y documentos listos antes del 26 de enero.'],
+ ['T3',.10,1,5,'Los postres de leche terminan exigiendo registro del Invima.',8177641,'Mitigar: consultar en noviembre a la Secretaría de Salud y al Invima.'],
+ ['T4',.30,3,3,'El aporte de enero de $1.000.000 llega tarde.',158304,'Aceptado, cubierto por la reserva.'],
+ ['T5',.25,2,4,'El préstamo familiar de $1.216.141 se condiciona o se demora.',316608,'Aceptado, cubierto por la reserva.'],
+ ['T6',.35,3,2,'La encuesta cae en vacaciones de diciembre y cuesta conseguir respuestas.',90000,'Aceptado, cubierto por la reserva.'],
+ ['T7',.40,3,3,'Los conocidos de los socios responden que sí comprarían.',300000,'Mitigar: al menos 70% de encuestados sin relación con los socios.'],
+ ['T8',.50,4,2,'Por el calor de Santa Marta algunos postres llegan por encima de 6 °C.',157848,'Mitigar: zona de domicilio de 45 minutos y recogida programada.'],
+ ['T9',.50,4,3,'Las semanas de parciales frenan las tareas de los socios.',158304,'Mitigar: dos tardes fijas por semana en el calendario académico.'],
+ ['T10',.30,3,2,'Proveedores de Medellín, Cali o Bogotá demoran los envíos.',79152,'Aceptado, cubierto por la reserva.'],
+ ['T11',.15,2,5,'La nevera que se comparte con la familia no alcanza.',1249900,'Mitigar: producir por turnos según los pedidos del día.'],
+ ['T12',.35,3,2,'La Secretaría de Salud no acepta el curso en línea.',120000,'Aceptado, cubierto por la reserva.'],
+ ['T13',.35,3,2,'El precio de $10.000 a $14.000 parece alto frente a un postre común.',141600,'Aceptado, cubierto por la reserva.'],
+ ['T14',.30,3,3,'El testeo depende del regreso a clases para encontrar usuarios.',118728,'Aceptado, cubierto por la reserva.'],
+ ['T15',.30,3,3,'Las redes dependen de tener fotos del producto final.',197880,'Aceptado, cubierto por la reserva.'],
+ ['T16',.40,3,3,'Las ventas quedan por debajo del punto de equilibrio.',395760,'Mitigar: preventa durante la campaña y producción bajo pedido.']
+];
+var TRIG = {
+ T1:[108494.72,'La autoridad pide condiciones que la cocina no cumple.'],
+ T2:[118728,'A los 7 días de radicado el trámite no hay fecha de visita.'],
+ T3:[408882.05,'La Secretaría de Salud responde que se necesita registro del Invima.'],
+ T7:[60000,'A mitad de la encuesta, menos del 70% de los encuestados son desconocidos.'],
+ T8:[39462,'Una entrega llega por encima de 6 °C en la ruta de prueba.'],
+ T9:[47491.2,'Una actividad crítica tiene 2 días de retraso en el corte semanal.'],
+ T11:[124990,'Dos días seguidos rechazando pedidos por falta de espacio en la nevera.'],
+ T16:[98940,'Menos de 20 preventas al terminar la campaña de expectativa.']
+};
+var ALTS = {
+ T1:[['Aceptar: esperar la visita',271237,0],['Mitigar: adecuar la cocina',258495,1],['Evitar: alquilar cocina 2 meses',1000000,0]],
+ T2:[['Aceptar: radicar sin consulta',237456,0],['Mitigar: consulta en noviembre',148728,1],['Transferir: gestor de trámites',489046,0]]
+};
+var TRIG_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>';
+(function(){
+  var g = $('#riskGrid'); var html=''; var k=0;
+  for(var p=5;p>=1;p--){ html += '<span class="ax">'+p+'</span>';
+    for(var i=1;i<=5;i++){ var sc=p*i, z = sc>=12?3:sc>=5?2:1; var inCell = RISKS.filter(function(r){return r[2]===p && r[3]===i});
+      html += '<div class="cell z'+z+'">'+inCell.map(function(r){return '<button type="button" class="rk" style="--d:'+(k++)+'" data-r="'+r[0]+'" aria-pressed="false">'+r[0]+'</button>'}).join('')+'</div>'; } }
+  html += '<span></span>'; for(var j=1;j<=5;j++) html += '<span class="ax">'+j+'</span>';
+  g.innerHTML = html;
+  function pick(id){ var r = RISKS.filter(function(x){return x[0]===id})[0]; var sc = r[2]*r[3], zone = sc>=12?'Alta':sc>=5?'Media':'Baja';
+    $$('.rk', g).forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.r===id); });
+    $('#riskDetail').innerHTML = '<div class="row"><span class="chip '+(zone==='Alta'?'heat':'gold')+'">'+r[0]+' · zona '+zone.toLowerCase()+'</span></div>'+
+      '<p class="h-m" style="font-size:clamp(22px,2.2vw,34px)">'+r[4]+'</p>'+
+      '<div><p class="small" style="margin-bottom:6px">Probabilidad: '+Math.round(r[1]*100)+'%</p><div class="meter"><i style="width:'+(r[1]*100)+'%"></i></div></div>'+
+      '<p class="small">Impacto total: <b>'+fmtMoney(r[5])+'</b> · valor esperado '+fmtMoney(r[1]*r[5])+'</p><hr class="rule"><p class="small">'+r[6]+'</p>'+
+      (TRIG[id] ? '<p class="trigger">'+TRIG_ICON+'<span><b>Disparador:</b> '+TRIG[id][1]+'</span></p><p class="small">Valor esperado residual que entra a la reserva: <b>'+fmtMoney(TRIG[id][0])+'</b></p>'
+                : '<p class="small">Valor esperado que entra a la reserva: <b>'+fmtMoney(r[1]*r[5])+'</b></p>')+
+      (ALTS[id] ? '<p class="small" style="margin-top:4px">Alternativas comparadas por costo total esperado (respuesta + riesgo residual):</p><table class="alt-table">'+ALTS[id].map(function(a){return '<tr'+(a[2]?' class="pick"':'')+'><td>'+a[0]+(a[2]?' · elegida':'')+'</td><td>'+fmtMoney(a[1])+'</td></tr>'}).join('')+'</table>' : ''); }
+  g.addEventListener('click', function(e){ var b = e.target.closest('.rk'); if(b) pick(b.dataset.r); });
+  pick('T2');
+})();
+
+/* ---------- tablero ---------- */
+var board = (function(){
+  var cols = [['Por hacer',0],['Lista para empezar',4],['En curso',2],['Esperando a terceros',3],['En revisión',2],['Terminada',0]];
+  var el = $('#board');
+  el.innerHTML = cols.map(function(c,i){return '<div class="col" data-c="'+i+'"><header>'+c[0]+'<span>'+(c[1]?'máx. '+c[1]:'libre')+'</span></header></div>'}).join('');
+  var seed = [['A1','Certificación',[1,2,4,5]],['A2','Utensilios',[1,2,5]],['A5','Cuestionario',[1,2,4,5]],['A3','Lotes de prueba',[1,2,4,5]],['A4','Fichas técnicas',[1,2,4,5]],['A10','Proveedores',[1,2,3,4,5]],['A6','Encuesta',[1,2,4,5]],['A13','Trámite sanitario',[1,2,3,4,5]],['A7','Análisis encuesta',[1,2,4,5]],['A11','Precios',[1,2,4,5]]];
+  var tasks, timer = null, moved = null;
+  function reset(){ moved = null; tasks = seed.map(function(s){return {id:s[0],n:s[1],route:s[2],step:-1}}); render(); }
+  function colOf(t){ return t.step<0?0:t.route[t.step]; }
+  function count(c){ return tasks.filter(function(t){return colOf(t)===c}).length; }
+  function render(){ cols.forEach(function(c,i){ var col = $('[data-c="'+i+'"]', el); $$('.task', col).forEach(function(x){x.remove()});
+      tasks.filter(function(t){return colOf(t)===i}).forEach(function(t){ col.insertAdjacentHTML('beforeend','<div class="task'+(t===moved?' new':'')+'"><b>'+t.id+'</b>'+t.n+'</div>'); });
+      col.classList.toggle('full', c[1] && count(i)>=c[1]); }); }
+  function tick(){ // mueve la tarea más avanzada que pueda avanzar
+    var order = tasks.slice().sort(function(a,b){return colOf(b)-colOf(a)});
+    for(var i=0;i<order.length;i++){ var t = order[i]; if(t.step >= t.route.length-1) continue; var nc = t.route[t.step+1];
+      if(cols[nc][1] && count(nc) >= cols[nc][1]) continue; t.step++; moved = t; render(); return; }
+    reset();
+  }
+  function start(){ if(timer||reduce) return; timer = setInterval(tick, 1300); }
+  function stop(){ clearInterval(timer); timer=null; }
+  reset();
+  var tg = $('#kbToggle'); tg.addEventListener('click', function(){ if(timer){stop(); tg.textContent='Reanudar'; tg.setAttribute('aria-pressed','false');} else {start(); tg.textContent='Pausar'; tg.setAttribute('aria-pressed','true');} });
+  return {start:function(){ if(tg.getAttribute('aria-pressed')==='true') start(); }, stop:stop};
+})();
+
+/* ---------- porqués, tarjetas, capas, postres ---------- */
+$$('.why').forEach(function(b){ b.addEventListener('click', function(){ $$('.why').forEach(function(o){o.setAttribute('aria-pressed', o===b)}); }); });
+var whyTimer=null;
+function cycleWhys(on){ clearInterval(whyTimer); if(!on||reduce) return; var i=0; var ws=$$('.why');
+  whyTimer = setInterval(function(){ i=(i+1)%ws.length; ws.forEach(function(o,j){o.setAttribute('aria-pressed', j===i)}); if(i===ws.length-1) clearInterval(whyTimer); }, 1600); }
+$$('.flip').forEach(function(b){ b.addEventListener('click', function(){ b.setAttribute('aria-pressed', b.getAttribute('aria-pressed')!=='true'); }); });
+
+var DESSERTS = {pave:['Pavé','Capas de crema de chocolate, galleta triturada y crema blanca, terminado con virutas de chocolate.'],
+  carlota:['Carlota de limón','Galletas intercaladas con crema de limón, con migas de galleta, ralladura y una hoja de hierbabuena.'],
+  napoleon:['Napoleón','Láminas finas de hojaldre y crema, cubiertas con migas doradas de hojaldre.']};
+var state3d = {focus:'pave', band:-1};
+$$('[data-dessert]').forEach(function(b){ b.addEventListener('click', function(){ $$('[data-dessert]').forEach(function(o){o.setAttribute('aria-selected', o===b)});
+  state3d.focus = b.dataset.dessert; $('#dName').textContent = DESSERTS[b.dataset.dessert][0]; $('#dDesc').textContent = DESSERTS[b.dataset.dessert][1];
+  if(window.__mm3d) window.__mm3d.rebuild(b.dataset.dessert); }); });
+$$('.layer').forEach(function(b){ b.addEventListener('click', function(){ var on = b.getAttribute('aria-pressed')!=='true';
+  $$('.layer').forEach(function(o){o.setAttribute('aria-pressed', on && o===b)}); state3d.band = on ? +b.dataset.band : -1; }); });
+
+/* ---------- contadores ---------- */
+function runCounters(slide){ $$('[data-count]', slide).forEach(function(el){ var to = +el.dataset.count, money = el.hasAttribute('data-money'), suf = el.dataset.suffix || '';
+  var fmt = function(n){ return money ? fmtMoney(n) : Math.round(n) + suf; };
+  if(reduce){ el.textContent = fmt(to); return; }
+  var t0 = performance.now(), dur = 1600 + Math.min(900, String(to).length*90);
+  (function step(t){ var k = Math.min(1,(t-t0)/dur); var e = 1-Math.pow(1-k,4); el.textContent = fmt(to*e); if(k<1) requestAnimationFrame(step); })(t0); }); }
+(function(){ var now = new Date(), target = new Date(2027,1,19); var days = Math.max(0, Math.ceil((target - new Date(now.getFullYear(),now.getMonth(),now.getDate()))/86400000));
+  var el = $('#daysLeft'); el.dataset.count = days; el.textContent = days; })();
+
+/* ---------- navegación ---------- */
+var slides = $$('.slide'), deck = $('#deck'), cur = 0, busy = false;
+var prog = $('#progress');
+prog.innerHTML = slides.map(function(s,i){return '<button type="button" aria-label="Ir a '+s.dataset.title+'"></button>'}).join('');
+var dots = $$('button', prog);
+dots.forEach(function(b,i){ b.addEventListener('click', function(){ go(i); }); });
+function pad(n){return (n<10?'0':'')+n}
+function onEnter(s){ runCounters(s);
+  if(s.id==='curva') animateSLine();
+  if(s.id==='seguimiento') board.start(); else board.stop();
+  cycleWhys(s.id==='causa'); }
+function go(i, fromHash){ i = Math.max(0, Math.min(slides.length-1, i)); if(i===cur && !fromHash) return;
+  var old = slides[cur], nw = slides[i], dir = i > cur ? 1 : -1;
+  if(old !== nw){ old.style.setProperty('--dir', dir); old.classList.add('leaving'); old.classList.remove('active');
+    setTimeout(function(){ old.classList.remove('leaving'); }, 560); }
+  cur = i; nw.classList.add('active'); nw.scrollTop = 0;
+  deck.style.backgroundColor = nw.dataset.bg;
+  document.body.classList.toggle('gold-mode', nw.classList.contains('on-gold'));
+  dots.forEach(function(b,j){ b.toggleAttribute('aria-current', j===i); if(j===i) b.setAttribute('aria-current','true'); b.classList.toggle('done', j<i); });
+  $('#count').textContent = pad(i+1) + ' / ' + slides.length;
+  $('#where').textContent = 'Mío Manjar · ' + nw.dataset.title;
+  $('#notesText').textContent = nw.dataset.notes || '';
+  hideTip();
+  if(!fromHash){ try{ history.replaceState(null,'','#'+nw.id); }catch(e){ location.hash = nw.id; } }
+  if(window.__mm3d) window.__mm3d.toSlide(nw.id);
+  onEnter(nw);
+}
+$('#prev').addEventListener('click', function(){ go(cur-1) });
+$('#next').addEventListener('click', function(){ go(cur+1) });
+$('#btnStart').addEventListener('click', function(){ go(1) });
+$('#notesBtn').addEventListener('click', function(){ var n = $('#notes'); n.hidden = !n.hidden; this.setAttribute('aria-pressed', !n.hidden); });
+$('#fsBtn').addEventListener('click', function(){ var el = document.documentElement;
+  try{ if(!document.fullscreenElement){ var p = el.requestFullscreen && el.requestFullscreen(); if(p && p.catch) p.catch(function(){}); } else { document.exitFullscreen(); } }catch(e){} });
+document.addEventListener('keydown', function(e){ if(e.target.closest('input,textarea')) return;
+  var k = e.key;
+  if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.target.closest('button'))){ e.preventDefault(); go(cur+1); }
+  else if(k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(cur-1); }
+  else if(k==='Home'){ go(0) } else if(k==='End'){ go(slides.length-1) }
+  else if(k==='n'||k==='N'){ $('#notesBtn').click() } else if(k==='f'||k==='F'){ $('#fsBtn').click() } });
+var wheelAcc = 0, wheelLock = 0;
+window.addEventListener('wheel', function(e){ var s = slides[cur]; var canScroll = s.scrollHeight > s.clientHeight + 4;
+  if(canScroll){ if(e.deltaY>0 && s.scrollTop + s.clientHeight < s.scrollHeight - 2) return; if(e.deltaY<0 && s.scrollTop > 2) return; }
+  if(e.target.closest('.gantt-wrap') && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+  var now = Date.now(); if(now < wheelLock) return; wheelAcc += e.deltaY;
+  if(Math.abs(wheelAcc) > 70){ go(cur + (wheelAcc>0?1:-1)); wheelAcc = 0; wheelLock = now + 900; } }, {passive:true});
+var tx=null, ty=null;
+window.addEventListener('touchstart', function(e){ var t=e.touches[0]; tx=t.clientX; ty=t.clientY; }, {passive:true});
+window.addEventListener('touchend', function(e){ if(tx===null) return; var t=e.changedTouches[0]; var dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.4 && !e.target.closest('.gantt-wrap,.timeline')) go(cur + (dx<0?1:-1)); tx=null; }, {passive:true});
+window.addEventListener('hashchange', function(){ var id = location.hash.slice(1); var i = slides.findIndex(function(s){return s.id===id}); if(i>=0 && i!==cur) go(i,true); });
+
+/* ---------- 3D ---------- */
+function init3D(){
+  if(!window.THREE) return null;
+  var canvas = $('#gl'); var renderer;
+  try{ renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true}); }catch(e){ return null; }
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+  camera.position.set(0, 2.4, 12); camera.lookAt(0, 0, 0);
+  scene.add(new THREE.HemisphereLight(0xffe4b8, 0x402011, 1.0));
+  var key = new THREE.DirectionalLight(0xfff1d6, 1.25); key.position.set(3, 6, 5); scene.add(key);
+  var rim = new THREE.DirectionalLight(0xfaae33, 1.0); rim.position.set(-5, 2.5, -4); scene.add(rim);
+  var fill = new THREE.PointLight(0xffb060, .5, 30); fill.position.set(-4, -1, 6); scene.add(fill);
+
+  function col(h){ return new THREE.Color(h).convertSRGBToLinear(); }
+  function tex(base, spots, n, rmax){ var c = document.createElement('canvas'); c.width = c.height = 256; var g = c.getContext('2d');
+    g.fillStyle = base; g.fillRect(0,0,256,256);
+    for(var i=0;i<n;i++){ g.globalAlpha = .2 + Math.random()*.6; g.fillStyle = spots[i%spots.length]; g.beginPath(); g.arc(Math.random()*256, Math.random()*256, .6 + Math.random()*rmax, 0, 7); g.fill(); }
+    var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.encoding = THREE.sRGBEncoding; return t; }
+  function mat(hex, map, rough, extra){ var m = new THREE.MeshStandardMaterial({color: 0xffffff, map: map||null, roughness: rough==null?.7:rough, metalness: 0});
+    if(!map) m.color = col(hex); if(extra) for(var k in extra) m[k]=extra[k]; return m; }
+  var T = {
+    choc: tex('#5a2d13', ['#3f1d0a','#73401f'], 900, 2),
+    crumb: tex('#8d5b31', ['#5b3518','#b8814d','#3f2410'], 2600, 2.2),
+    cream: tex('#f3e8d2', ['#e6d8bb','#fbf5e8'], 500, 3),
+    lemon: tex('#efe1a4', ['#e2cf7e','#f7edc4','#7da83e'], 520, 2),
+    cookie: tex('#c8925a', ['#a5703c','#e0b27c','#8a5a2c'], 1600, 1.6),
+    pastry: tex('#e5b670', ['#c98c44','#f5d79d','#b37532'], 1500, 1.8)
+  };
+  var glassMat = new THREE.MeshPhysicalMaterial({color: col('#fff8ee'), roughness:.06, metalness:0, transparent:true, opacity:.2, side:THREE.DoubleSide, depthWrite:false, clearcoat:1, clearcoatRoughness:.1});
+  var rimMat = new THREE.MeshStandardMaterial({color: col('#fff3e0'), roughness:.1, transparent:true, opacity:.55});
+  var mint = mat('#3f8d3c', null, .45);
+
+  function D(name){ return {name:name, root:new THREE.Group(), spin:new THREE.Group(), parts:[], t:0, explode:0, tExplode:0, pos:new THREE.Vector3(0,-9,0), tgt:{x:0,y:-9,s:0}, s:0, vel:0, rotY:Math.random()*6}; }
+  function addPart(dd, mesh, y, order, band, explodeY){ mesh.position.y = y; dd.spin.add(mesh); dd.parts.push({m:mesh, y:y, o:order, band:band==null?-1:band, ex:explodeY||0, x0:mesh.position.x, z0:mesh.position.z}); }
+
+  /* Pavé: vaso con capas */
+  function buildPave(){ var dd = D('pave'); dd.root.add(dd.spin);
+    var H = 2.7, rT = 1.0, rB = .84, yB = -1.35;
+    var glass = new THREE.Mesh(new THREE.CylinderGeometry(rT, rB, H, 64, 1, true), glassMat); glass.renderOrder = 2; dd.spin.add(glass);
+    var bottom = new THREE.Mesh(new THREE.CylinderGeometry(rB, rB*.98, .12, 64), glassMat); bottom.position.y = yB - .06; dd.spin.add(bottom);
+    var lip = new THREE.Mesh(new THREE.TorusGeometry(rT, .025, 10, 80), rimMat); lip.rotation.x = Math.PI/2; lip.position.y = yB + H; dd.spin.add(lip);
+    var R = function(y){ return rB + (y - yB)/H*(rT - rB) - .035; };
+    var spec = [[.30,'choc'],[.36,'crumb'],[.30,'cream'],[.42,'choc'],[.30,'crumb'],[.40,'cream']];
+    var y = yB; var n = spec.length;
+    spec.forEach(function(s,i){ var h = s[0]; var m = new THREE.Mesh(new THREE.CylinderGeometry(R(y+h), R(y), h, 56), mat(null, T[s[1]], s[1]==='choc'?.5:.85));
+      T[s[1]].repeat && T[s[1]].repeat.set(3,1); addPart(dd, m, y + h/2, i, -1, (i - n/2)*.42); y += h; });
+    var domeG = new THREE.SphereGeometry(R(y), 48, 18, 0, Math.PI*2, 0, Math.PI/2); var dome = new THREE.Mesh(domeG, mat(null, T.cream, .6)); dome.scale.y = .42;
+    addPart(dd, dome, y, n, -1, (n - n/2)*.42 + .1);
+    var shavGeo = new THREE.BoxGeometry(.09, .03, .05), shavMat = mat('#2b1407', null, .5);
+    for(var i=0;i<70;i++){ var a = Math.random()*Math.PI*2, r = Math.sqrt(Math.random())*R(y)*.9; var px = Math.cos(a)*r, pz = Math.sin(a)*r;
+      var py = y + Math.sqrt(Math.max(0, 1 - Math.pow(r/R(y),2)))*R(y)*.42 + .01;
+      var sh = new THREE.Mesh(shavGeo, shavMat); sh.position.set(px, 0, pz); sh.rotation.set(Math.random()*3, Math.random()*3, Math.random()*3); sh.scale.setScalar(.6 + Math.random()*.9);
+      addPart(dd, sh, py, n+1, -1, (n - n/2)*.42 + .2); }
+    dd.spin.position.y = -.05; return dd; }
+
+  /* Carlota: copa con galleta y crema de limón */
+  function buildCarlota(){ var dd = D('carlota'); dd.root.add(dd.spin);
+    var yb = -.55, yt = 1.0; var R = function(y){ return .42 + .62*Math.sqrt(Math.max(0,(y - yb)/(yt - yb))); };
+    var prof = []; for(var i=0;i<=24;i++){ var y = yb + (yt - yb)*i/24; prof.push(new THREE.Vector2(R(y)+.03, y)); } prof.unshift(new THREE.Vector2(0, yb - .02));
+    var bowl = new THREE.Mesh(new THREE.LatheGeometry(prof, 64), glassMat); bowl.renderOrder = 2; dd.spin.add(bowl);
+    var lip = new THREE.Mesh(new THREE.TorusGeometry(R(yt)+.03, .022, 10, 80), rimMat); lip.rotation.x = Math.PI/2; lip.position.y = yt; dd.spin.add(lip);
+    var stem = new THREE.Mesh(new THREE.CylinderGeometry(.09, .12, .62, 24), glassMat); stem.position.y = yb - .33; dd.spin.add(stem);
+    var knob = new THREE.Mesh(new THREE.SphereGeometry(.15, 24, 16), glassMat); knob.position.y = yb - .2; dd.spin.add(knob);
+    var foot = new THREE.Mesh(new THREE.CylinderGeometry(.62, .66, .06, 48), glassMat); foot.position.y = yb - .66; dd.spin.add(foot);
+    var spec = [[.12,'cookie'],[.30,'lemon'],[.12,'cookie'],[.30,'lemon'],[.12,'cookie'],[.30,'lemon']];
+    var y = yb + .02; var n = spec.length;
+    spec.forEach(function(s,i){ var h = s[0]; var m = new THREE.Mesh(new THREE.CylinderGeometry(R(y+h)-.02, R(y)-.02, h, 56), mat(null, T[s[1]], .8)); addPart(dd, m, y + h/2, i, -1, (i - n/2)*.35); y += h; });
+    var top = new THREE.Mesh(new THREE.SphereGeometry(R(y)-.02, 48, 12, 0, Math.PI*2, 0, Math.PI/2), mat(null, T.lemon, .6)); top.scale.y = .16; addPart(dd, top, y, n, -1, 1.2);
+    var crumbM = mat(null, T.cookie, .9), dg = new THREE.DodecahedronGeometry(.07, 0);
+    for(var i=0;i<26;i++){ var a = Math.random()*6.28, r = Math.random()*.32; var c = new THREE.Mesh(dg, crumbM); c.position.set(Math.cos(a)*r, 0, Math.sin(a)*r); c.scale.setScalar(.6+Math.random()*.9); c.rotation.set(Math.random()*3,Math.random()*3,0); addPart(dd, c, y + .1 + Math.random()*.1, n+1, -1, 1.4); }
+    var zg = new THREE.BoxGeometry(.06,.015,.015), zm = mat('#7bb23a', null, .5);
+    for(var i=0;i<40;i++){ var a = Math.random()*6.28, r = .2 + Math.random()*.6; var z = new THREE.Mesh(zg, zm); z.position.set(Math.cos(a)*r, 0, Math.sin(a)*r); z.rotation.y = Math.random()*3; addPart(dd, z, y + .05, n+1, -1, 1.4); }
+    for(var i=0;i<3;i++){ var lf = new THREE.Mesh(new THREE.SphereGeometry(.16, 16, 8), mint); lf.scale.set(1, .18, .55); lf.position.set(Math.cos(i*2.1)*.12, 0, Math.sin(i*2.1)*.12); lf.rotation.set(.5, i*2.1, .25); addPart(dd, lf, y + .26, n+2, -1, 1.6); }
+    dd.spin.position.y = .05; return dd; }
+
+  /* Napoleón: porción de hojaldre en 4 bandas, sobre plato */
+  function buildNapoleon(){ var dd = D('napoleon'); dd.root.add(dd.spin);
+    var plate = new THREE.Mesh(new THREE.CylinderGeometry(1.75, 1.45, .1, 64), mat('#402011', null, .35)); plate.position.y = -.98; dd.spin.add(plate);
+    var prim = new THREE.Mesh(new THREE.TorusGeometry(1.74, .03, 8, 90), mat('#faae33', null, .3)); prim.rotation.x = Math.PI/2; prim.position.y = -.93; dd.spin.add(prim);
+    var W = 1.9, Dp = 1.2, y = -.93; dd.bandMats = [];
+    for(var b=0;b<4;b++){ dd.bandMats.push([mat(null, T.pastry, .85), mat(null, T.cream, .6), mat(null, T.pastry, .95)]); }
+    var hs = [.09,.15,.09,.15,.09,.15,.09,.15,.09,.15,.09,.15];
+    hs.forEach(function(h,i){ var band = Math.floor(i/3); var isP = i%2===0; var g = new THREE.BoxGeometry(W - (isP?0:.04), h, Dp - (isP?0:.04));
+      var m = new THREE.Mesh(g, dd.bandMats[band][isP?0:1]); addPart(dd, m, y + h/2, i, band, 0); y += h; });
+    var cg = new THREE.DodecahedronGeometry(.075, 0);
+    for(var i=0;i<150;i++){ var c = new THREE.Mesh(cg, dd.bandMats[3][2]); c.position.set((Math.random()-.5)*W*.95, 0, (Math.random()-.5)*Dp*.92); c.scale.setScalar(.5 + Math.random()*1.1); c.rotation.set(Math.random()*3, Math.random()*3, Math.random()*3);
+      addPart(dd, c, y + .04 + Math.random()*.13, 12 + Math.floor(i/50), 3, 0); }
+    for(var i=0;i<3;i++){ var lf = new THREE.Mesh(new THREE.SphereGeometry(.15, 16, 8), mint); lf.scale.set(1, .2, .58); lf.position.set(-.2 + Math.cos(i*2.1)*.1, 0, -.1 + Math.sin(i*2.1)*.1); lf.rotation.set(.6, i*2.1, .3); addPart(dd, lf, y + .32, 15, 3, 0); }
+    dd.spin.rotation.x = 0; return dd; }
+
+  var all = {pave: buildPave(), carlota: buildCarlota(), napoleon: buildNapoleon()};
+  Object.keys(all).forEach(function(k){ scene.add(all[k].root); all[k].root.scale.setScalar(0); });
+
+  var halfH = Math.tan(15*Math.PI/180) * camera.position.length();
+  function layout(id){ var asp = camera.aspect, hw = halfH*asp, narrow = asp < .95;
+    var L = {}; var hide = {x:0,y:-halfH*2,s:0};
+    ['pave','carlota','napoleon'].forEach(function(k){ L[k] = {x:hide.x,y:hide.y,s:0,ex:0}; });
+    var up = halfH*.42; // zona superior en teléfono
+    function put(k,x,y,s,ex){ L[k] = {x:x,y:y,s:s,ex:ex||0}; }
+    if(id==='portada'){ narrow ? put('pave',0,up,.62) : put('pave',hw*.52,-.15,1.22); }
+    else if(id==='pasaporte'){ var f = state3d.focus;
+      if(narrow){ ['pave','carlota','napoleon'].forEach(function(k,i){ var x=(i-1)*hw*.62; put(k,x,up+.1, k===f?.42:.3); }); }
+      else { var others = ['pave','carlota','napoleon'].filter(function(k){return k!==f});
+        put(f, hw*.5, -.2, f==='napoleon'?.95:1.05); put(others[0], hw*.88, 1.45, .4); put(others[1], hw*.88, -1.55, .4); } }
+    else if(id==='problema'){ narrow ? put('pave',0,up,.48,1) : put('pave',hw*.55,-.05,.98,1); }
+    else if(id==='alcance'){ narrow ? put('carlota',0,up,.6) : put('carlota',hw*.66,1.3,.68); }
+    else if(id==='edt'){ narrow ? put('napoleon',0,up-.2,.5,1) : put('napoleon',hw*.5,-.45,1.05,1); }
+    else if(id==='cierre'){ if(narrow){ put('pave',-hw*.6,up,.3); put('carlota',0,up+.2,.3); put('napoleon',hw*.62,up-.1,.28); }
+      else { put('pave',hw*.32,.15,.72); put('carlota',hw*.78,.3,.7); put('napoleon',hw*.55,-1.6,.62); } }
+    return L; }
+
+  var current = 'portada';
+  function apply(){ var L = layout(current); Object.keys(all).forEach(function(k){ var dd = all[k]; dd.tgt = L[k]; dd.tExplode = L[k].ex; }); }
+  function rebuild(k){ var list = k ? [all[k]] : Object.keys(all).map(function(x){return all[x]}); list.forEach(function(dd){ dd.t = 0; }); }
+  function toSlide(id){ var was = current; current = id; apply();
+    Object.keys(all).forEach(function(k){ var dd = all[k]; if(dd.tgt.s > 0 && dd.s < .05) dd.t = 0; });
+    if(id==='portada' && was!=='portada') rebuild('pave'); }
+
+  // arrastre con el ratón para girar
+  var drag = null;
+  window.addEventListener('pointerdown', function(e){ if(e.pointerType!=='mouse' || e.button!==0) return; if(e.target.closest('button,a,input,.nav,.notes,svg,.card,.gantt-wrap,.layers,.flips,.board')) return; drag = {x:e.clientX}; });
+  window.addEventListener('pointermove', function(e){ if(!drag) return; var dx = e.clientX - drag.x; drag.x = e.clientX; Object.keys(all).forEach(function(k){ all[k].vel += dx*.0035; }); });
+  window.addEventListener('pointerup', function(){ drag = null; });
+  var mx = 0, my = 0; window.addEventListener('pointermove', function(e){ mx = e.clientX/window.innerWidth - .5; my = e.clientY/window.innerHeight - .5; });
+
+  function resize(){ var w = window.innerWidth, h = window.innerHeight; renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix(); apply(); }
+  window.addEventListener('resize', resize); resize();
+
+  var ease = function(k){ return 1 - Math.pow(1-k, 3); };
+  var last = performance.now(), running = true;
+  document.addEventListener('visibilitychange', function(){ running = !document.hidden; if(running){ last = performance.now(); requestAnimationFrame(loop); } });
+  function loop(now){ if(!running) return; var dt = Math.min(.05, (now - last)/1000); last = now;
+    var lerp = 1 - Math.pow(.0016, dt);
+    Object.keys(all).forEach(function(k){ var dd = all[k]; var tg = dd.tgt;
+      dd.pos.x += (tg.x - dd.pos.x)*lerp; dd.pos.y += (tg.y - dd.pos.y)*lerp; dd.s += (tg.s - dd.s)*lerp;
+      dd.root.position.set(dd.pos.x + mx*.25, dd.pos.y - my*.15 + Math.sin(now/900 + dd.rotY)*.04*dd.s, 0);
+      dd.root.scale.setScalar(Math.max(.0001, dd.s)); dd.root.visible = dd.s > .01;
+      dd.explode += (dd.tExplode - dd.explode)*lerp;
+      dd.vel *= Math.pow(.05, dt); dd.rotY += (reduce ? 0 : .32*dt) + dd.vel*dt*10;
+      dd.spin.rotation.y = dd.rotY; dd.spin.rotation.z = (k==='pave' ? .04 : 0) * dd.explode;
+      if(dd.root.visible){ dd.t += dt; }
+      dd.parts.forEach(function(p){ var k0 = reduce ? 1 : ease(Math.max(0, Math.min(1, (dd.t - .15 - p.o*.13)/.7)));
+        var off = (1 - k0)*4.2; var ex = 0;
+        if(dd.name==='napoleon'){ var b = p.band; ex = dd.explode*(b*.3); if(state3d.band>=0 && current==='edt' && b===state3d.band) ex += .55*dd.explode; }
+        else ex = p.ex*dd.explode;
+        p.m.position.y = p.y + off + ex;
+        if(dd.name==='pave' && p.o < 7){ p.m.position.x = p.x0 + Math.sin(p.o*1.7)*.35*dd.explode; } });
+      if(dd.name==='napoleon' && dd.bandMats){ dd.bandMats.forEach(function(ms,b){ var on = current==='edt' && state3d.band===b; ms.forEach(function(m){ m.emissive = m.emissive || new THREE.Color(); m.emissive.copy(col('#faae33')).multiplyScalar(on ? .22 : 0); }); }); }
+    });
+    renderer.render(scene, camera); requestAnimationFrame(loop); }
+  requestAnimationFrame(loop);
+  apply();
+  return {toSlide:toSlide, rebuild:rebuild, refresh:apply};
+}
+try{ window.__mm3d = init3D(); }catch(e){ window.__mm3d = null; }
+if(window.__mm3d){ var origRebuild = window.__mm3d.rebuild; window.__mm3d.rebuild = function(k){ window.__mm3d.refresh(); origRebuild(k); }; }
+$('#btnRebuild').addEventListener('click', function(){ if(window.__mm3d) window.__mm3d.rebuild('pave'); });
+
+/* arranque */
+var startId = location.hash.slice(1); var si = slides.findIndex(function(s){return s.id===startId});
+go(si >= 0 ? si : 0, true);
+})();
+</script>
+
+</body></html>
